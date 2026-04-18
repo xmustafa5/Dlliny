@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dlliny — دليني | Coming Soon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -14,7 +17,13 @@
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         :root {
             --gold: #F5A623;
@@ -32,15 +41,33 @@
             --ink-2: #1A1A26;
             --text: #13131A;
             --text-light: #6B6B78;
-            --line: rgba(14,14,20,0.08);
+            --line: rgba(14, 14, 20, 0.08);
         }
 
-        html, body { height: auto; }
-        html.lenis { height: auto; }
-        html.lenis body { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto !important; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
+        html,
+        body {
+            height: auto;
+        }
+
+        html.lenis {
+            height: auto;
+        }
+
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
 
         body {
             font-family: 'Space Grotesk', 'Cairo', sans-serif;
@@ -50,84 +77,175 @@
             -webkit-font-smoothing: antialiased;
             cursor: none;
         }
-        @media (max-width: 900px) { body { cursor: auto; } }
 
-        ::selection { background: var(--ink); color: var(--gold-light); }
+        @media (max-width: 900px) {
+            body {
+                cursor: auto;
+            }
+        }
+
+        ::selection {
+            background: var(--ink);
+            color: var(--gold-light);
+        }
 
         /* Custom cursor — premium morphing blob */
-        .cursor-dot, .cursor-blob {
-            position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+        .cursor-dot,
+        .cursor-blob {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
             will-change: transform;
         }
+
         .cursor-dot {
-            width: 6px; height: 6px; border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
             background: var(--ink);
             mix-blend-mode: difference;
         }
+
         .cursor-blob {
-            width: 140px; height: 140px;
+            width: 140px;
+            height: 140px;
             opacity: 0.9;
         }
-        .cursor-blob svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 4px 18px rgba(255,107,53,0.35)); }
+
+        .cursor-blob svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            filter: drop-shadow(0 4px 18px rgba(255, 107, 53, 0.35));
+        }
+
         .cursor-blob .blob-path {
             fill: url(#cursorGrad);
             transition: opacity 0.3s;
         }
-        @media (max-width: 900px) { .cursor-dot, .cursor-blob { display: none; } }
+
+        @media (max-width: 900px) {
+
+            .cursor-dot,
+            .cursor-blob {
+                display: none;
+            }
+        }
 
         /* Noise / grain overlay */
         body::before {
-            content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9998;
-            opacity: 0.05; mix-blend-mode: multiply;
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.05;
+            mix-blend-mode: multiply;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         /* ── NAV ── */
         nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
             padding: 18px 40px;
-            display: flex; align-items: center; justify-content: space-between;
-            transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
+
         nav.scrolled {
             padding: 12px 40px;
             backdrop-filter: blur(24px) saturate(180%);
-            background: rgba(250,246,238,0.75);
+            background: rgba(250, 246, 238, 0.75);
             border-bottom: 1px solid var(--line);
         }
-        .nav-logo { display: flex; align-items: baseline; gap: 10px; }
-        .nav-logo-en {
-            font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: 30px; color: var(--ink); letter-spacing: -0.5px;
+
+        .nav-logo {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
         }
-        .nav-divider { width: 1px; height: 18px; background: var(--ink); opacity: 0.3; }
-        .nav-logo-ar { font-family: 'Cairo', sans-serif; font-size: 20px; font-weight: 700; color: var(--ink); direction: rtl; }
+
+        .nav-logo-en {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 30px;
+            color: var(--ink);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--ink);
+            opacity: 0.3;
+        }
+
+        .nav-logo-ar {
+            font-family: 'Cairo', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--ink);
+            direction: rtl;
+        }
+
         .nav-cta {
-            position: relative; overflow: hidden;
-            background: var(--ink); color: var(--cream);
-            border: none; padding: 12px 24px; border-radius: 999px;
-            font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600;
-            cursor: none; transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+            position: relative;
+            overflow: hidden;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: none;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             letter-spacing: 0.5px;
         }
+
         .nav-cta::before {
-            content: ''; position: absolute; inset: 0;
+            content: '';
+            position: absolute;
+            inset: 0;
             background: linear-gradient(135deg, var(--orange), var(--coral));
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             z-index: -1;
         }
-        .nav-cta:hover::before { transform: translateY(0); }
-        .nav-cta span { position: relative; z-index: 1; }
+
+        .nav-cta:hover::before {
+            transform: translateY(0);
+        }
+
+        .nav-cta span {
+            position: relative;
+            z-index: 1;
+        }
 
         /* ── HERO ── */
         .hero {
-            min-height: 100vh; position: relative;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; padding: 140px 40px 90px;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 140px 40px 90px;
             background: var(--cream);
         }
+
         .hero-grid-bg {
-            position: absolute; inset: 0;
+            position: absolute;
+            inset: 0;
             background-image:
                 linear-gradient(var(--line) 1px, transparent 1px),
                 linear-gradient(90deg, var(--line) 1px, transparent 1px);
@@ -135,1249 +253,2172 @@
             mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
             -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
         }
+
         .hero-glow {
-            position: absolute; inset: 0; pointer-events: none;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
             background:
-                radial-gradient(ellipse 50% 60% at 15% 50%, rgba(245,166,35,0.22) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 60% at 85% 30%, rgba(255,107,53,0.18) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 50% at 70% 85%, rgba(123,94,167,0.15) 0%, transparent 60%);
+                radial-gradient(ellipse 50% 60% at 15% 50%, rgba(245, 166, 35, 0.22) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 85% 30%, rgba(255, 107, 53, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 50% at 70% 85%, rgba(123, 94, 167, 0.15) 0%, transparent 60%);
         }
+
         .orb {
-            position: absolute; border-radius: 50%; filter: blur(80px);
-            opacity: 0.55; will-change: transform;
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.55;
+            will-change: transform;
         }
-        .orb-1 { width: 520px; height: 520px; background: radial-gradient(var(--gold-light), var(--gold)); top: -140px; right: -100px; }
-        .orb-2 { width: 380px; height: 380px; background: radial-gradient(var(--teal-light), var(--teal)); bottom: -80px; left: -100px; }
-        .orb-3 { width: 300px; height: 300px; background: radial-gradient(var(--purple-light), var(--purple)); top: 40%; right: 10%; }
+
+        .orb-1 {
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(var(--gold-light), var(--gold));
+            top: -140px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(var(--teal-light), var(--teal));
+            bottom: -80px;
+            left: -100px;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(var(--purple-light), var(--purple));
+            top: 40%;
+            right: 10%;
+        }
 
         /* Floating UI Cards */
-        .floating-cards { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
-        .ui-card {
-            position: absolute; background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255,255,255,0.8);
-            border-radius: 20px; padding: 16px 20px;
-            box-shadow:
-                0 1px 2px rgba(14,14,20,0.04),
-                0 20px 50px rgba(14,14,20,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.9);
-            max-width: 230px; will-change: transform;
+        .floating-cards {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 5;
         }
-        .card-tala { left: 3%; top: 22%; transform: rotate(-4deg); }
-        .card-venue { right: 3%; top: 28%; transform: rotate(4deg); }
-        .card-map { left: 7%; bottom: 12%; transform: rotate(-2deg); }
-        .ui-card-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .ui-ava { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-        .ui-title { font-size: 13px; font-weight: 600; color: var(--ink); }
-        .ui-sub { font-size: 11px; color: var(--text-light); }
-        .ui-pill { display: inline-block; padding: 4px 10px; border-radius: 50px; font-size: 11px; font-weight: 600; }
-        .pill-teal { background: rgba(13,115,119,0.1); color: var(--teal); }
-        .pill-orange { background: rgba(255,107,53,0.1); color: var(--orange); }
-        .pill-emerald { background: rgba(0,184,148,0.1); color: var(--emerald); }
-        .pill-purple { background: rgba(123,94,167,0.1); color: var(--purple); }
-        .ui-faces { display: flex; margin-top: 10px; }
-        .ui-face { width: 26px; height: 26px; border-radius: 50%; border: 2px solid white; margin-left: -8px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
-        .ui-face:first-child { margin-left: 0; }
-        .map-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; animation: mapPulse 2s ease-in-out infinite; }
-        @keyframes mapPulse { 0%,100%{transform:scale(1); opacity:1} 50%{transform:scale(1.5); opacity:0.6} }
+
+        .ui-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 16px 20px;
+            box-shadow:
+                0 1px 2px rgba(14, 14, 20, 0.04),
+                0 20px 50px rgba(14, 14, 20, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            max-width: 230px;
+            will-change: transform;
+        }
+
+        .card-tala {
+            left: 3%;
+            top: 22%;
+            transform: rotate(-4deg);
+        }
+
+        .card-venue {
+            right: 3%;
+            top: 28%;
+            transform: rotate(4deg);
+        }
+
+        .card-map {
+            left: 7%;
+            bottom: 12%;
+            transform: rotate(-2deg);
+        }
+
+        .ui-card-hdr {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .ui-ava {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .ui-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .ui-sub {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .ui-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .pill-teal {
+            background: rgba(13, 115, 119, 0.1);
+            color: var(--teal);
+        }
+
+        .pill-orange {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--orange);
+        }
+
+        .pill-emerald {
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--emerald);
+        }
+
+        .pill-purple {
+            background: rgba(123, 94, 167, 0.1);
+            color: var(--purple);
+        }
+
+        .ui-faces {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .ui-face {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .ui-face:first-child {
+            margin-left: 0;
+        }
+
+        .map-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: mapPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes mapPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.6
+            }
+        }
 
         /* Hero Content */
-        .hero-content { position: relative; z-index: 10; text-align: center; max-width: 960px; }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 960px;
+        }
+
         .hero-badge {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(12px);
-            border: 1px solid var(--line); border-radius: 999px;
-            padding: 8px 18px; font-size: 13px; font-weight: 500; color: var(--ink);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
             margin-bottom: 32px;
         }
-        .badge-dot { width: 7px; height: 7px; background: var(--emerald); border-radius: 50%; box-shadow: 0 0 0 0 rgba(0,184,148,0.6); animation: pulseDot 2s ease-in-out infinite; }
-        @keyframes pulseDot { 0%,100%{box-shadow:0 0 0 0 rgba(0,184,148,0.6)} 50%{box-shadow:0 0 0 8px rgba(0,184,148,0)} }
 
-        .hero-logo { margin-bottom: 24px; position: relative; }
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.6);
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.6)
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(0, 184, 148, 0)
+            }
+        }
+
+        .hero-logo {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
         .hero-logo-en {
             font-family: 'Instrument Serif', serif;
             font-size: clamp(76px, 14vw, 180px);
-            color: var(--ink); line-height: 0.95; letter-spacing: -4px;
-            display: inline-block; font-style: italic;
+            color: var(--ink);
+            line-height: 0.95;
+            letter-spacing: -4px;
+            display: inline-block;
+            font-style: italic;
         }
-        .hero-logo-en .ital { font-style: italic; }
+
+        .hero-logo-en .ital {
+            font-style: italic;
+        }
+
         .hero-logo-ar {
             font-family: 'Cairo', sans-serif;
             font-size: clamp(48px, 9vw, 96px);
-            font-weight: 900; color: var(--orange); line-height: 1;
-            direction: rtl; margin-top: 8px;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            direction: rtl;
+            margin-top: 8px;
             background: linear-gradient(135deg, var(--orange) 0%, var(--coral) 50%, var(--gold) 100%);
-            -webkit-background-clip: text; background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            padding-bottom: 40px;
         }
+
         .hero-tagline {
             font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(16px, 2.2vw, 22px);
-            font-weight: 500; color: var(--text); margin-bottom: 16px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 16px;
             letter-spacing: -0.3px;
         }
+
         .hero-tagline em {
-            font-family: 'Instrument Serif', serif; font-style: italic;
-            color: var(--teal); font-weight: 400;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            color: var(--teal);
+            font-weight: 400;
         }
+
         .hero-desc {
-            font-size: clamp(14px, 1.7vw, 17px); color: var(--text-light);
-            max-width: 600px; margin: 0 auto 40px; line-height: 1.7;
+            font-size: clamp(14px, 1.7vw, 17px);
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
         }
-        .hero-desc strong { color: var(--ink); font-weight: 600; }
-        .hero-form { display: flex; gap: 10px; max-width: 500px; margin: 0 auto 16px; }
+
+        .hero-desc strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .hero-form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto 16px;
+        }
+
         .hero-input {
-            flex: 1; padding: 16px 24px;
-            border: 1px solid var(--line); border-radius: 999px;
-            font-family: 'Space Grotesk', sans-serif; font-size: 15px;
-            background: white; outline: none;
-            transition: all 0.3s; cursor: none;
+            flex: 1;
+            padding: 16px 24px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            background: white;
+            outline: none;
+            transition: all 0.3s;
+            cursor: none;
         }
+
         .hero-input:focus {
             border-color: var(--ink);
-            box-shadow: 0 0 0 4px rgba(14,14,20,0.06);
+            box-shadow: 0 0 0 4px rgba(14, 14, 20, 0.06);
         }
-        .hero-input::placeholder { color: var(--text-light); }
+
+        .hero-input::placeholder {
+            color: var(--text-light);
+        }
+
         .btn-primary {
-            position: relative; overflow: hidden;
-            background: var(--ink); color: var(--cream); border: none;
-            padding: 16px 30px; border-radius: 999px;
-            font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600;
-            cursor: none; transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
-            white-space: nowrap; letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            padding: 16px 30px;
+            border-radius: 999px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: none;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            white-space: nowrap;
+            letter-spacing: 0.3px;
         }
+
         .btn-primary::before {
-            content: ''; position: absolute; inset: 0;
+            content: '';
+            position: absolute;
+            inset: 0;
             background: linear-gradient(135deg, var(--orange), var(--coral));
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .btn-primary:hover::before { transform: translateY(0); }
-        .btn-primary span { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-primary:hover { transform: translateY(-2px); }
+
+        .btn-primary:hover::before {
+            transform: translateY(0);
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
         .hero-note {
-            font-size: 12px; color: var(--text-light);
-            letter-spacing: 0.5px; text-transform: uppercase;
+            font-size: 12px;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
+
         .success-msg {
-            display: none; align-items: center; justify-content: center; gap: 10px;
-            padding: 14px 22px; background: rgba(0,184,148,0.08);
-            border: 1px solid var(--emerald); border-radius: 999px;
-            color: var(--emerald); font-weight: 600; font-size: 14px; margin-bottom: 14px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 22px;
+            background: rgba(0, 184, 148, 0.08);
+            border: 1px solid var(--emerald);
+            border-radius: 999px;
+            color: var(--emerald);
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 14px;
         }
-        .success-msg.show { display: flex; }
+
+        .success-msg.show {
+            display: flex;
+        }
 
         /* Hero marquee indicator */
         .scroll-hint {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 10px;
-            font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-            color: var(--text-light); z-index: 10;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            z-index: 10;
         }
-        .scroll-hint .line { width: 40px; height: 1px; background: var(--text-light); position: relative; overflow: hidden; }
+
+        .scroll-hint .line {
+            width: 40px;
+            height: 1px;
+            background: var(--text-light);
+            position: relative;
+            overflow: hidden;
+        }
+
         .scroll-hint .line::after {
-            content: ''; position: absolute; inset: 0; background: var(--ink);
-            transform: translateX(-100%); animation: scrollLine 2s ease-in-out infinite;
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--ink);
+            transform: translateX(-100%);
+            animation: scrollLine 2s ease-in-out infinite;
         }
-        @keyframes scrollLine { 50%{transform:translateX(0)} 100%{transform:translateX(100%)} }
+
+        @keyframes scrollLine {
+            50% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(100%)
+            }
+        }
 
         /* ── TICKER ── */
         .ticker {
-            background: var(--ink); color: var(--cream);
-            padding: 22px 0; overflow: hidden; display: flex;
+            background: var(--ink);
+            color: var(--cream);
+            padding: 22px 0;
+            overflow: hidden;
+            display: flex;
             border-top: 1px solid var(--ink-2);
             border-bottom: 1px solid var(--ink-2);
         }
+
         .ticker-track {
-            display: flex; gap: 0; white-space: nowrap;
+            display: flex;
+            gap: 0;
+            white-space: nowrap;
             animation: tickerScroll 35s linear infinite;
         }
-        .ticker-track:hover { animation-play-state: paused; }
-        @keyframes tickerScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-        .ticker-item {
-            display: inline-flex; align-items: center; gap: 14px;
-            padding: 0 24px; font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: 24px; color: var(--cream); letter-spacing: -0.5px;
+
+        .ticker-track:hover {
+            animation-play-state: paused;
         }
-        .ticker-item span { font-family: 'Cairo', sans-serif; font-style: normal; font-weight: 700; color: var(--gold-light); }
-        .ticker-dot { width: 5px; height: 5px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
+
+        @keyframes tickerScroll {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 24px;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 24px;
+            color: var(--cream);
+            letter-spacing: -0.5px;
+        }
+
+        .ticker-item span {
+            font-family: 'Cairo', sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            color: var(--gold-light);
+        }
+
+        .ticker-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--orange);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
 
         /* ── SECTIONS COMMON ── */
-        section { padding: 140px 40px; position: relative; }
+        section {
+            padding: 140px 40px;
+            position: relative;
+        }
+
         .section-label {
-            font-size: 11px; font-weight: 600; letter-spacing: 3px;
-            text-transform: uppercase; margin-bottom: 20px;
-            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
+
         .section-label::before {
-            content: ''; width: 24px; height: 1px; background: currentColor;
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: currentColor;
         }
+
         .section-title {
             font-family: 'Instrument Serif', serif;
             font-size: clamp(36px, 6vw, 72px);
-            line-height: 1; margin-bottom: 24px;
-            letter-spacing: -2px; color: var(--ink);
+            line-height: 1;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            color: var(--ink);
         }
-        .section-title em { font-style: italic; }
+
+        .section-title em {
+            font-style: italic;
+        }
+
         .section-sub {
-            font-size: 17px; color: var(--text-light);
-            line-height: 1.7; max-width: 620px;
+            font-size: 17px;
+            color: var(--text-light);
+            line-height: 1.7;
+            max-width: 620px;
         }
 
         /* ── FEATURES ── */
-        .features { background: var(--cream-2); overflow: hidden; }
-        .features-inner { max-width: 1280px; margin: 0 auto; }
-        .features-hdr { text-align: center; margin-bottom: 80px; }
-        .features-hdr .section-label { color: var(--orange); }
-        .features-hdr .section-label::before { background: var(--orange); }
+        .features {
+            background: var(--cream-2);
+            overflow: hidden;
+        }
+
+        .features-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .features-hdr {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .features-hdr .section-label {
+            color: var(--orange);
+        }
+
+        .features-hdr .section-label::before {
+            background: var(--orange);
+        }
 
         .features-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            gap: 1px; background: var(--line); border: 1px solid var(--line);
-            border-radius: 28px; overflow: hidden;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            overflow: hidden;
         }
+
         .feat-card {
-            background: var(--cream); padding: 40px 32px;
-            position: relative; overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.22,1,0.36,1);
+            background: var(--cream);
+            padding: 40px 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
+
         .feat-card::before {
-            content: ''; position: absolute; inset: 0;
-            opacity: 0; transition: opacity 0.5s;
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s;
         }
-        .feat-card-1::before { background: linear-gradient(145deg, rgba(245,166,35,0.1), rgba(255,107,53,0.15)); }
-        .feat-card-2::before { background: linear-gradient(145deg, rgba(13,115,119,0.1), rgba(20,189,189,0.15)); }
-        .feat-card-3::before { background: linear-gradient(145deg, rgba(123,94,167,0.1), rgba(167,139,250,0.15)); }
-        .feat-card-4::before { background: linear-gradient(145deg, rgba(0,184,148,0.1), rgba(0,184,148,0.17)); }
-        .feat-card:hover::before { opacity: 1; }
-        .feat-card > * { position: relative; z-index: 1; }
+
+        .feat-card-1::before {
+            background: linear-gradient(145deg, rgba(245, 166, 35, 0.1), rgba(255, 107, 53, 0.15));
+        }
+
+        .feat-card-2::before {
+            background: linear-gradient(145deg, rgba(13, 115, 119, 0.1), rgba(20, 189, 189, 0.15));
+        }
+
+        .feat-card-3::before {
+            background: linear-gradient(145deg, rgba(123, 94, 167, 0.1), rgba(167, 139, 250, 0.15));
+        }
+
+        .feat-card-4::before {
+            background: linear-gradient(145deg, rgba(0, 184, 148, 0.1), rgba(0, 184, 148, 0.17));
+        }
+
+        .feat-card:hover::before {
+            opacity: 1;
+        }
+
+        .feat-card>* {
+            position: relative;
+            z-index: 1;
+        }
 
         .feat-num {
-            font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: 14px; color: var(--text-light); margin-bottom: 24px;
-            display: flex; align-items: center; gap: 10px;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .feat-num::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+        .feat-num::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+
         .feat-icon-wrap {
-            width: 56px; height: 56px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 26px; margin-bottom: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 24px;
         }
-        .iwrap-1 { background: linear-gradient(135deg, var(--gold), var(--orange)); }
-        .iwrap-2 { background: linear-gradient(135deg, var(--teal), var(--teal-light)); }
-        .iwrap-3 { background: linear-gradient(135deg, var(--purple), var(--purple-light)); }
-        .iwrap-4 { background: linear-gradient(135deg, var(--emerald), #00D2A8); }
+
+        .iwrap-1 {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+        }
+
+        .iwrap-2 {
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+        }
+
+        .iwrap-3 {
+            background: linear-gradient(135deg, var(--purple), var(--purple-light));
+        }
+
+        .iwrap-4 {
+            background: linear-gradient(135deg, var(--emerald), #00D2A8);
+        }
+
         .feat-title {
             font-family: 'Instrument Serif', serif;
-            font-size: 26px; margin-bottom: 4px; color: var(--ink);
+            font-size: 26px;
+            margin-bottom: 4px;
+            color: var(--ink);
             letter-spacing: -0.5px;
         }
-        .feat-title em { font-style: italic; }
-        .feat-title-ar {
-            font-family: 'Cairo', sans-serif; font-size: 14px;
-            font-weight: 600; color: var(--text-light);
-            direction: rtl; margin-bottom: 14px;
+
+        .feat-title em {
+            font-style: italic;
         }
-        .feat-desc { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+
+        .feat-title-ar {
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-light);
+            direction: rtl;
+            margin-bottom: 14px;
+        }
+
+        .feat-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
 
         /* ── HOW IT WORKS ── */
-        .how { background: var(--cream); overflow: hidden; }
-        .how-inner { max-width: 1200px; margin: 0 auto; }
-        .how-hdr { text-align: center; margin-bottom: 80px; }
-        .how-hdr .section-label { color: var(--teal); }
-        .how-hdr .section-label::before { background: var(--teal); }
+        .how {
+            background: var(--cream);
+            overflow: hidden;
+        }
+
+        .how-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .how-hdr {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .how-hdr .section-label {
+            color: var(--teal);
+        }
+
+        .how-hdr .section-label::before {
+            background: var(--teal);
+        }
 
         .steps {
-            display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
-            gap: 20px; align-items: stretch;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 20px;
+            align-items: stretch;
         }
+
         .step-arrow {
-            color: var(--ink); font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: 42px; display: flex; align-items: center; justify-content: center;
+            color: var(--ink);
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0.3;
         }
+
         .step {
-            position: relative; padding: 40px 28px; border-radius: 28px;
-            transition: all 0.5s cubic-bezier(0.22,1,0.36,1);
+            position: relative;
+            padding: 40px 28px;
+            border-radius: 28px;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             border: 1px solid var(--line);
             background: white;
         }
-        .step:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(14,14,20,0.08); }
+
+        .step:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(14, 14, 20, 0.08);
+        }
+
         .step-num {
-            font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: 60px; line-height: 1; margin-bottom: 20px;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 60px;
+            line-height: 1;
+            margin-bottom: 20px;
         }
-        .snum-1 { color: var(--orange); }
-        .snum-2 { color: var(--teal); }
-        .snum-3 { color: var(--purple); }
-        .step-emoji { font-size: 42px; margin-bottom: 16px; }
+
+        .snum-1 {
+            color: var(--orange);
+        }
+
+        .snum-2 {
+            color: var(--teal);
+        }
+
+        .snum-3 {
+            color: var(--purple);
+        }
+
+        .step-emoji {
+            font-size: 42px;
+            margin-bottom: 16px;
+        }
+
         .step-title {
-            font-family: 'Instrument Serif', serif; font-size: 24px;
-            color: var(--ink); margin-bottom: 4px; letter-spacing: -0.5px;
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            color: var(--ink);
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
+
         .step-ar {
-            font-family: 'Cairo', sans-serif; font-size: 13px;
-            font-weight: 600; color: var(--text-light);
-            direction: rtl; margin-bottom: 14px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            direction: rtl;
+            margin-bottom: 14px;
         }
-        .step-desc { font-size: 14px; color: var(--text-light); line-height: 1.65; }
+
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.65;
+        }
 
         /* ── BUSINESS ── */
         .business {
-            background: var(--ink); color: var(--cream);
-            position: relative; overflow: hidden;
+            background: var(--ink);
+            color: var(--cream);
+            position: relative;
+            overflow: hidden;
         }
+
         .biz-bg {
-            position: absolute; inset: 0;
+            position: absolute;
+            inset: 0;
             background-image:
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 60px 60px;
         }
+
         .biz-glow {
-            position: absolute; inset: 0; pointer-events: none;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
             background:
-                radial-gradient(ellipse 40% 50% at 20% 30%, rgba(245,166,35,0.12) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 50% at 80% 70%, rgba(13,115,119,0.15) 0%, transparent 70%);
+                radial-gradient(ellipse 40% 50% at 20% 30%, rgba(245, 166, 35, 0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 50% at 80% 70%, rgba(13, 115, 119, 0.15) 0%, transparent 70%);
         }
-        .biz-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+
+        .biz-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
         .biz-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 80px; align-items: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
         }
-        .business .section-title { color: var(--cream); }
-        .business .section-sub { color: rgba(250,246,238,0.6); }
-        .biz-perks { display: flex; flex-direction: column; gap: 14px; margin-top: 40px; }
+
+        .business .section-title {
+            color: var(--cream);
+        }
+
+        .business .section-sub {
+            color: rgba(250, 246, 238, 0.6);
+        }
+
+        .biz-perks {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 40px;
+        }
+
         .perk {
-            display: flex; align-items: flex-start; gap: 18px; padding: 22px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 20px; transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            padding: 22px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
+
         .perk:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(245,166,35,0.3);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(245, 166, 35, 0.3);
             transform: translateX(6px);
         }
+
         .perk-icon {
-            width: 42px; height: 42px; border-radius: 12px;
-            background: rgba(245,166,35,0.12); color: var(--gold-light);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(245, 166, 35, 0.12);
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
         }
+
         .perk-title {
-            font-family: 'Instrument Serif', serif; font-size: 20px;
-            color: var(--cream); margin-bottom: 6px; letter-spacing: -0.3px;
+            font-family: 'Instrument Serif', serif;
+            font-size: 20px;
+            color: var(--cream);
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
         }
-        .perk-desc { font-size: 13px; color: rgba(250,246,238,0.5); line-height: 1.6; }
+
+        .perk-desc {
+            font-size: 13px;
+            color: rgba(250, 246, 238, 0.5);
+            line-height: 1.6;
+        }
 
         /* Brand page mock */
         .brand-mock {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 28px; overflow: hidden;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            overflow: hidden;
             backdrop-filter: blur(10px);
         }
+
         .brand-header {
             height: 130px;
             background: linear-gradient(135deg, var(--teal), var(--teal-light));
-            position: relative; display: flex; align-items: center; justify-content: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
         }
+
         .brand-header::before {
-            content: ''; position: absolute; inset: 0;
-            background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.2) 0%, transparent 40%);
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 40%);
         }
+
         .brand-avatar {
-            position: absolute; bottom: -32px; left: 28px;
-            width: 64px; height: 64px; border-radius: 18px;
-            background: var(--ink); display: flex; align-items: center; justify-content: center;
-            font-size: 28px; border: 3px solid var(--ink);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: absolute;
+            bottom: -32px;
+            left: 28px;
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 3px solid var(--ink);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
+
         .brand-verified {
-            position: absolute; top: 14px; right: 14px;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
-            color: white; padding: 5px 12px; border-radius: 999px;
-            font-size: 11px; font-weight: 600;
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
         }
-        .brand-body { padding: 44px 28px 28px; }
+
+        .brand-body {
+            padding: 44px 28px 28px;
+        }
+
         .brand-name {
-            font-family: 'Instrument Serif', serif; font-size: 24px;
-            color: var(--cream); margin-bottom: 4px; letter-spacing: -0.5px;
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            color: var(--cream);
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
-        .brand-type { font-size: 12px; color: rgba(250,246,238,0.5); margin-bottom: 18px; }
-        .brand-stats { display: flex; gap: 24px; }
+
+        .brand-type {
+            font-size: 12px;
+            color: rgba(250, 246, 238, 0.5);
+            margin-bottom: 18px;
+        }
+
+        .brand-stats {
+            display: flex;
+            gap: 24px;
+        }
+
         .bstat-num {
-            font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: 28px; color: var(--gold-light); letter-spacing: -0.5px;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 28px;
+            color: var(--gold-light);
+            letter-spacing: -0.5px;
         }
-        .bstat-label { font-size: 10px; color: rgba(250,246,238,0.4); text-transform: uppercase; letter-spacing: 1px; }
+
+        .bstat-label {
+            font-size: 10px;
+            color: rgba(250, 246, 238, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         /* ── SOCIAL PROOF ── */
-        .proof { background: var(--cream); text-align: center; }
-        .proof-inner { max-width: 1100px; margin: 0 auto; }
-        .proof .section-label { color: var(--purple); }
-        .proof .section-label::before { background: var(--purple); }
+        .proof {
+            background: var(--cream);
+            text-align: center;
+        }
+
+        .proof-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .proof .section-label {
+            color: var(--purple);
+        }
+
+        .proof .section-label::before {
+            background: var(--purple);
+        }
 
         .stats-grid {
-            display: grid; grid-template-columns: repeat(3,1fr);
-            gap: 1px; margin: 80px 0;
-            background: var(--line); border: 1px solid var(--line);
-            border-radius: 28px; overflow: hidden;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            margin: 80px 0;
+            background: var(--line);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            overflow: hidden;
         }
+
         .stat-item {
-            background: var(--cream); padding: 50px 24px;
-            transition: all 0.4s; position: relative; overflow: hidden;
+            background: var(--cream);
+            padding: 50px 24px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
         }
+
         .stat-item::before {
-            content: ''; position: absolute; inset: 0;
-            opacity: 0; transition: opacity 0.4s;
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.4s;
         }
-        .si-1::before { background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(255,107,53,0.12)); }
-        .si-2::before { background: linear-gradient(135deg, rgba(13,115,119,0.08), rgba(20,189,189,0.12)); }
-        .si-3::before { background: linear-gradient(135deg, rgba(123,94,167,0.08), rgba(167,139,250,0.12)); }
-        .stat-item:hover::before { opacity: 1; }
-        .stat-item > * { position: relative; z-index: 1; }
+
+        .si-1::before {
+            background: linear-gradient(135deg, rgba(245, 166, 35, 0.08), rgba(255, 107, 53, 0.12));
+        }
+
+        .si-2::before {
+            background: linear-gradient(135deg, rgba(13, 115, 119, 0.08), rgba(20, 189, 189, 0.12));
+        }
+
+        .si-3::before {
+            background: linear-gradient(135deg, rgba(123, 94, 167, 0.08), rgba(167, 139, 250, 0.12));
+        }
+
+        .stat-item:hover::before {
+            opacity: 1;
+        }
+
+        .stat-item>* {
+            position: relative;
+            z-index: 1;
+        }
+
         .stat-num {
-            font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: clamp(48px, 8vw, 86px); line-height: 1;
-            margin-bottom: 12px; letter-spacing: -3px;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: clamp(48px, 8vw, 86px);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -3px;
         }
-        .sn-1 { color: var(--orange); }
-        .sn-2 { color: var(--teal); }
-        .sn-3 { color: var(--purple); }
+
+        .sn-1 {
+            color: var(--orange);
+        }
+
+        .sn-2 {
+            color: var(--teal);
+        }
+
+        .sn-3 {
+            color: var(--purple);
+        }
+
         .stat-label {
-            font-size: 13px; color: var(--text-light);
-            font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px;
+            font-size: 13px;
+            color: var(--text-light);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
         .testi-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-            gap: 24px; margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 60px;
         }
+
         .testi-card {
-            background: white; border: 1px solid var(--line);
-            border-radius: 24px; padding: 34px 30px;
-            text-align: left; transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 34px 30px;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
+
         .testi-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 30px 60px rgba(14,14,20,0.08);
+            box-shadow: 0 30px 60px rgba(14, 14, 20, 0.08);
             border-color: var(--ink);
         }
+
         .testi-quote {
-            font-family: 'Instrument Serif', serif; font-style: italic;
-            font-size: 56px; color: var(--gold); line-height: 0.5;
-            margin-bottom: 20px; display: block;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            font-size: 56px;
+            color: var(--gold);
+            line-height: 0.5;
+            margin-bottom: 20px;
+            display: block;
         }
+
         .testi-text {
-            font-family: 'Instrument Serif', serif; font-size: 18px;
-            color: var(--ink); line-height: 1.5; margin-bottom: 24px;
+            font-family: 'Instrument Serif', serif;
+            font-size: 18px;
+            color: var(--ink);
+            line-height: 1.5;
+            margin-bottom: 24px;
             letter-spacing: -0.2px;
         }
-        .testi-author { display: flex; align-items: center; gap: 12px; }
-        .testi-ava {
-            width: 42px; height: 42px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 20px;
+
+        .testi-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .testi-name { font-weight: 600; font-size: 14px; color: var(--ink); }
-        .testi-city { font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; }
+
+        .testi-ava {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .testi-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--ink);
+        }
+
+        .testi-city {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         /* ── FINAL CTA ── */
         .final-cta {
-            background: var(--ink); color: var(--cream);
-            position: relative; overflow: hidden; text-align: center;
+            background: var(--ink);
+            color: var(--cream);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
         }
+
         .cta-bg {
-            position: absolute; inset: 0;
+            position: absolute;
+            inset: 0;
             background:
-                radial-gradient(ellipse 60% 80% at 50% 50%, rgba(13,115,119,0.4) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 60% at 20% 30%, rgba(245,166,35,0.15) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 60% at 80% 70%, rgba(255,107,53,0.15) 0%, transparent 70%);
+                radial-gradient(ellipse 60% 80% at 50% 50%, rgba(13, 115, 119, 0.4) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 20% 30%, rgba(245, 166, 35, 0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 80% 70%, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
         }
+
         .cta-orb {
-            position: absolute; border-radius: 50%; filter: blur(60px);
-            will-change: transform; opacity: 0.4;
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            will-change: transform;
+            opacity: 0.4;
         }
-        .cta-orb-1 { width: 500px; height: 500px; background: radial-gradient(var(--teal-light), var(--teal)); top: -200px; right: -100px; }
-        .cta-orb-2 { width: 400px; height: 400px; background: radial-gradient(var(--gold), var(--orange)); bottom: -150px; left: -100px; }
-        .cta-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
-        .final-cta .section-label { color: rgba(250,246,238,0.5); }
-        .final-cta .section-label::before { background: rgba(250,246,238,0.3); }
+
+        .cta-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(var(--teal-light), var(--teal));
+            top: -200px;
+            right: -100px;
+        }
+
+        .cta-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(var(--gold), var(--orange));
+            bottom: -150px;
+            left: -100px;
+        }
+
+        .cta-inner {
+            max-width: 760px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta .section-label {
+            color: rgba(250, 246, 238, 0.5);
+        }
+
+        .final-cta .section-label::before {
+            background: rgba(250, 246, 238, 0.3);
+        }
+
         .cta-title {
             font-family: 'Instrument Serif', serif;
             font-size: clamp(42px, 8vw, 100px);
-            color: var(--cream); margin-bottom: 16px; line-height: 0.95;
+            color: var(--cream);
+            margin-bottom: 16px;
+            line-height: 0.95;
             letter-spacing: -3px;
         }
-        .cta-title em { font-style: italic; color: var(--gold-light); }
+
+        .cta-title em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
         .cta-title-ar {
             font-family: 'Cairo', sans-serif;
             font-size: clamp(22px, 3.5vw, 36px);
-            font-weight: 800; color: var(--gold-light);
-            direction: rtl; margin-bottom: 32px;
+            font-weight: 800;
+            color: var(--gold-light);
+            direction: rtl;
+            margin-bottom: 32px;
         }
+
         .cta-sub {
-            font-size: 17px; color: rgba(250,246,238,0.65);
-            margin-bottom: 44px; line-height: 1.6; max-width: 560px;
-            margin-left: auto; margin-right: auto;
+            font-size: 17px;
+            color: rgba(250, 246, 238, 0.65);
+            margin-bottom: 44px;
+            line-height: 1.6;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .cta-form { display: flex; gap: 10px; max-width: 500px; margin: 0 auto 18px; }
+
+        .cta-form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto 18px;
+        }
+
         .cta-input {
-            flex: 1; padding: 16px 24px;
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 999px;
-            font-family: 'Space Grotesk', sans-serif; font-size: 15px;
-            background: rgba(255,255,255,0.06); color: white;
-            outline: none; transition: all 0.3s; cursor: none;
+            flex: 1;
+            padding: 16px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+            cursor: none;
             backdrop-filter: blur(10px);
         }
-        .cta-input::placeholder { color: rgba(255,255,255,0.5); }
+
+        .cta-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
         .cta-input:focus {
             border-color: var(--gold-light);
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
+
         .btn-white {
-            position: relative; overflow: hidden;
-            background: var(--cream); color: var(--ink); border: none;
-            padding: 16px 32px; border-radius: 999px;
-            font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600;
-            cursor: none; transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
-            white-space: nowrap; letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+            background: var(--cream);
+            color: var(--ink);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 999px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: none;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            white-space: nowrap;
+            letter-spacing: 0.3px;
         }
+
         .btn-white::before {
-            content: ''; position: absolute; inset: 0;
+            content: '';
+            position: absolute;
+            inset: 0;
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .btn-white:hover::before { transform: translateY(0); }
-        .btn-white span { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-white:hover { transform: translateY(-2px); }
+
+        .btn-white:hover::before {
+            transform: translateY(0);
+        }
+
+        .btn-white span {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+        }
+
         .cta-note {
-            font-size: 11px; color: rgba(250,246,238,0.4);
-            text-transform: uppercase; letter-spacing: 2px;
+            font-size: 11px;
+            color: rgba(250, 246, 238, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
+
         .cta-success {
-            display: none; align-items: center; justify-content: center; gap: 10px;
-            max-width: 500px; margin: 0 auto 18px; padding: 14px 22px;
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);
-            border-radius: 999px; color: white; font-weight: 500; font-size: 14px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto 18px;
+            padding: 14px 22px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
         }
-        .cta-success.show { display: flex; }
+
+        .cta-success.show {
+            display: flex;
+        }
 
         /* ── FOOTER ── */
         footer {
-            background: var(--ink); color: var(--cream);
-            padding: 60px 40px 40px; text-align: center;
-            border-top: 1px solid var(--ink-2); position: relative;
+            background: var(--ink);
+            color: var(--cream);
+            padding: 60px 40px 40px;
+            text-align: center;
+            border-top: 1px solid var(--ink-2);
+            position: relative;
         }
+
         .foot-word {
-            font-family: 'Instrument Serif', serif; font-style: italic;
+            padding-top: 20px;
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
             font-size: clamp(80px, 15vw, 200px);
-            line-height: 0.9; letter-spacing: -4px;
-            color: var(--cream); opacity: 0.95;
+            line-height: 0.9;
+            letter-spacing: -4px;
+            color: var(--cream);
+            opacity: 0.95;
             margin-bottom: 12px;
         }
+
         .foot-logo-ar {
-            font-family: 'Cairo', sans-serif; font-size: 24px;
-            font-weight: 800; color: var(--orange); direction: rtl;
+            font-family: 'Cairo', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--orange);
+            direction: rtl;
             margin-bottom: 10px;
         }
+
         .foot-tagline {
-            color: rgba(250,246,238,0.4); font-size: 12px;
-            text-transform: uppercase; letter-spacing: 2px;
+            color: rgba(250, 246, 238, 0.4);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .foot-hr { border: none; border-top: 1px solid rgba(250,246,238,0.08); margin: 36px auto; max-width: 400px; }
-        .foot-copy { color: rgba(250,246,238,0.3); font-size: 12px; letter-spacing: 0.5px; }
+
+        .foot-hr {
+            border: none;
+            border-top: 1px solid rgba(250, 246, 238, 0.08);
+            margin: 36px auto;
+            max-width: 400px;
+        }
+
+        .foot-copy {
+            color: rgba(250, 246, 238, 0.3);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
 
         /* ── REVEAL BASE ── */
         .reveal-split .word,
         .reveal-split .char {
-            display: inline-block; overflow: hidden;
+            display: inline-block;
+            overflow: hidden;
         }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 950px) {
-            .steps { grid-template-columns: 1fr; }
-            .step-arrow { transform: rotate(90deg); padding: 10px 0; }
-            .biz-grid { grid-template-columns: 1fr; gap: 60px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .floating-cards { display: none; }
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .step-arrow {
+                transform: rotate(90deg);
+                padding: 10px 0;
+            }
+
+            .biz-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-cards {
+                display: none;
+            }
         }
+
         @media (max-width: 600px) {
-            section { padding: 90px 22px; }
-            nav { padding: 16px 22px; }
-            nav.scrolled { padding: 12px 22px; }
-            .hero { padding: 120px 22px 80px; }
-            .hero-form, .cta-form { flex-direction: column; }
-            .hero-form .btn-primary, .cta-form .btn-white { width: 100%; justify-content: center; }
-            .scroll-hint { display: none; }
+            section {
+                padding: 90px 22px;
+            }
+
+            nav {
+                padding: 16px 22px;
+            }
+
+            nav.scrolled {
+                padding: 12px 22px;
+            }
+
+            .hero {
+                padding: 120px 22px 80px;
+            }
+
+            .hero-form,
+            .cta-form {
+                flex-direction: column;
+            }
+
+            .hero-form .btn-primary,
+            .cta-form .btn-white {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .scroll-hint {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<div class="cursor-dot"></div>
-<div class="cursor-blob">
-    <svg viewBox="-70 -70 140 140">
-        <defs>
-            <radialGradient id="cursorGrad" cx="35%" cy="35%" r="70%">
-                <stop offset="0%" stop-color="#FFD26B" stop-opacity="1"/>
-                <stop offset="50%" stop-color="#FF6B35" stop-opacity="0.95"/>
-                <stop offset="100%" stop-color="#FF4858" stop-opacity="0.85"/>
-            </radialGradient>
-        </defs>
-        <path class="blob-path" d=""/>
-    </svg>
-</div>
-
-<!-- NAV -->
-<nav id="nav">
-    <div class="nav-logo">
-        <span class="nav-logo-en">Dlliny</span>
-        <div class="nav-divider"></div>
-        <span class="nav-logo-ar">دليني</span>
+    <div class="cursor-dot"></div>
+    <div class="cursor-blob">
+        <svg viewBox="-70 -70 140 140">
+            <defs>
+                <radialGradient id="cursorGrad" cx="35%" cy="35%" r="70%">
+                    <stop offset="0%" stop-color="#FFD26B" stop-opacity="1" />
+                    <stop offset="50%" stop-color="#FF6B35" stop-opacity="0.95" />
+                    <stop offset="100%" stop-color="#FF4858" stop-opacity="0.85" />
+                </radialGradient>
+            </defs>
+            <path class="blob-path" d="" />
+        </svg>
     </div>
-    <button class="nav-cta" data-hover onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})"><span>Join Waitlist</span></button>
-</nav>
 
-<!-- HERO -->
-<section class="hero" id="home">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
-    <div class="orb orb-1" data-speed="0.3"></div>
-    <div class="orb orb-2" data-speed="0.5"></div>
-    <div class="orb orb-3" data-speed="0.4"></div>
+    <!-- NAV -->
+    <nav id="nav">
+        <div class="nav-logo">
+            <span class="nav-logo-en">Dlliny</span>
+            <div class="nav-divider"></div>
+            <span class="nav-logo-ar">دليني</span>
+        </div>
+        <button class="nav-cta" data-hover
+            onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})"><span>Join
+                Waitlist</span></button>
+    </nav>
 
-    <!-- Floating UI Cards -->
-    <div class="floating-cards">
-        <div class="ui-card card-tala" data-float="1">
-            <div class="ui-card-hdr">
-                <div class="ui-ava" style="background:linear-gradient(135deg,#FF6B35,#FF4858);">🎯</div>
-                <div>
-                    <div class="ui-title">طلعة المساء</div>
-                    <div class="ui-sub">Tonight's Hangout</div>
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-glow"></div>
+        <div class="orb orb-1" data-speed="0.3"></div>
+        <div class="orb orb-2" data-speed="0.5"></div>
+        <div class="orb orb-3" data-speed="0.4"></div>
+
+        <!-- Floating UI Cards -->
+        <div class="floating-cards">
+            <div class="ui-card card-tala" data-float="1">
+                <div class="ui-card-hdr">
+                    <div class="ui-ava" style="background:linear-gradient(135deg,#FF6B35,#FF4858);">🎯</div>
+                    <div>
+                        <div class="ui-title">طلعة المساء</div>
+                        <div class="ui-sub">Tonight's Hangout</div>
+                    </div>
+                </div>
+                <span class="ui-pill pill-orange">📍 Karrada Cafe</span>
+                <div class="ui-faces">
+                    <div class="ui-face" style="background:#FFD93D;">😊</div>
+                    <div class="ui-face" style="background:#6BCB77;">😄</div>
+                    <div class="ui-face" style="background:#4D96FF;">😍</div>
+                    <div class="ui-face" style="background:var(--coral);color:white;font-size:10px;font-weight:700;">+5
+                    </div>
+                </div>
+                <div style="margin-top:10px;font-size:12px;color:var(--text-light);">⏰ 8:00 PM · Tonight</div>
+            </div>
+
+            <div class="ui-card card-venue" data-float="2">
+                <div class="ui-card-hdr">
+                    <div class="ui-ava" style="background:linear-gradient(135deg,#0D7377,#14BDBD);">🏪</div>
+                    <div>
+                        <div class="ui-title">Shooq Cafe</div>
+                        <div class="ui-sub">Baghdad, Mansour</div>
+                    </div>
+                </div>
+                <span class="ui-pill pill-teal">✅ Verified</span>
+                <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+                    <span style="color:var(--gold);font-size:13px;">★★★★★</span>
+                    <span style="font-size:11px;color:var(--text-light);">4.9 (312)</span>
+                </div>
+                <div style="margin-top:7px;font-size:11px;color:var(--text-light);">🎯 23 Tal'as this week</div>
+            </div>
+
+            <div class="ui-card card-map" data-float="3">
+                <div style="font-size:11px;font-weight:600;color:var(--teal);margin-bottom:6px;letter-spacing:1px;">🗺️
+                    LIVE MAP</div>
+                <div style="font-size:12px;color:var(--text-light);margin-bottom:9px;">Friends near you</div>
+                <div style="display:flex;gap:7px;flex-wrap:wrap;">
+                    <div class="map-dot" style="background:#FF6B35;animation-delay:0s;"></div>
+                    <div class="map-dot" style="background:#0D7377;animation-delay:0.3s;"></div>
+                    <div class="map-dot" style="background:#7B5EA7;animation-delay:0.6s;"></div>
+                    <div class="map-dot" style="background:#F5A623;animation-delay:0.9s;"></div>
+                    <div class="map-dot" style="background:#FF4858;animation-delay:1.2s;"></div>
+                    <div class="map-dot" style="background:#00B894;animation-delay:1.5s;"></div>
+                    <div class="map-dot" style="background:#FF6B35;animation-delay:1.8s;"></div>
+                    <div class="map-dot" style="background:#14BDBD;animation-delay:2.1s;"></div>
+                </div>
+                <div style="margin-top:9px;font-size:11px;color:var(--text-light);">🟢 8 friends active now</div>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge" data-anim="fade-down">
+                <div class="badge-dot"></div>
+                Launching Soon in Iraq 🇮🇶
+            </div>
+            <div class="hero-logo">
+                <div class="hero-logo-en" data-anim="logo">Dlliny</div>
+                <div class="hero-logo-ar" data-anim="fade-up">دليني</div>
+            </div>
+            <p class="hero-tagline" data-anim="fade-up">The First Original <em>Iraqi</em> Social Media Platform</p>
+            <p class="hero-desc" data-anim="fade-up">
+                Stop scrolling, start living. Dlliny connects you with friends and the best spots in your city — turning
+                plans into real-life <strong>Tal'as</strong> (طلعات) you'll actually remember.
+            </p>
+            <div class="hero-form" id="heroFormWrap" data-anim="fade-up">
+                <input type="email" class="hero-input" placeholder="Enter your email address" id="heroEmail">
+                <button class="btn-primary" data-hover
+                    onclick="handleSignup('heroEmail','heroSuccess','heroFormWrap')"><span>Join Waitlist
+                        →</span></button>
+            </div>
+            <div class="success-msg" id="heroSuccess">🎉 You're on the list! We'll be in touch soon.</div>
+            <p class="hero-note" data-anim="fade-up">Free forever — no spam, ever.</p>
+        </div>
+
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker">
+        <div class="ticker-track" id="tickerTrack">
+            <span class="ticker-item">Baghdad <span>· بغداد</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Basra <span>· البصرة</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Erbil <span>· أربيل</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Mosul <span>· الموصل</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Najaf <span>· النجف</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Karbala <span>· كربلاء</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Kirkuk <span>· كركوك</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Sulaymaniyah <span>· السليمانية</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Dohuk <span>· دهوك</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Ramadi <span>· الرمادي</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Samarra <span>· سامراء</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Amarah <span>· العمارة</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Baghdad <span>· بغداد</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Basra <span>· البصرة</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Erbil <span>· أربيل</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Mosul <span>· الموصل</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Najaf <span>· النجف</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Karbala <span>· كربلاء</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Kirkuk <span>· كركوك</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Sulaymaniyah <span>· السليمانية</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Dohuk <span>· دهوك</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Ramadi <span>· الرمادي</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Samarra <span>· سامراء</span></span><span class="ticker-item"><span
+                    class="ticker-dot"></span></span>
+            <span class="ticker-item">Amarah <span>· العمارة</span></span>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="features-inner">
+            <div class="features-hdr">
+                <div class="section-label">What makes us different</div>
+                <h2 class="section-title" data-split>Built for the Iraqi <em>way of life</em></h2>
+                <p class="section-sub" style="margin:0 auto;">Everything you need to connect, discover, and make real
+                    memories — all in one place, designed specifically for you.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feat-card feat-card-1">
+                    <div class="feat-num">01</div>
+                    <div class="feat-icon-wrap iwrap-1">🎯</div>
+                    <div class="feat-title">The <em>Tal'a</em> Organizer</div>
+                    <div class="feat-title-ar">منظم الطلعة</div>
+                    <p class="feat-desc">Create real hangouts, not just plans. Pick a verified venue, set the time,
+                        invite your crew, and share the excitement. Turn talk into action.</p>
+                </div>
+                <div class="feat-card feat-card-2">
+                    <div class="feat-num">02</div>
+                    <div class="feat-icon-wrap iwrap-2">🗺️</div>
+                    <div class="feat-title">The <em>Living</em> Map</div>
+                    <div class="feat-title-ar">الخريطة الحية</div>
+                    <p class="feat-desc">A real-time 2D map showing where friends are hanging out and spotlighting the
+                        hottest verified venues in your city. Always know where the fun is.</p>
+                </div>
+                <div class="feat-card feat-card-3">
+                    <div class="feat-num">03</div>
+                    <div class="feat-icon-wrap iwrap-3">📸</div>
+                    <div class="feat-title"><em>Social</em> Feed</div>
+                    <div class="feat-title-ar">التغذية الاجتماعية</div>
+                    <p class="feat-desc">Share photos, videos, and moments. Tag friends, mention favorite spots, and
+                        build a connected story of your life and city.</p>
+                </div>
+                <div class="feat-card feat-card-4">
+                    <div class="feat-num">04</div>
+                    <div class="feat-icon-wrap iwrap-4">🏪</div>
+                    <div class="feat-title"><em>Business</em> Ecosystem</div>
+                    <div class="feat-title-ar">منظومة الأعمال</div>
+                    <p class="feat-desc">Iraqi businesses get a verified digital home with custom brand pages and
+                        precision marketing to reach the right local customers.</p>
                 </div>
             </div>
-            <span class="ui-pill pill-orange">📍 Karrada Cafe</span>
-            <div class="ui-faces">
-                <div class="ui-face" style="background:#FFD93D;">😊</div>
-                <div class="ui-face" style="background:#6BCB77;">😄</div>
-                <div class="ui-face" style="background:#4D96FF;">😍</div>
-                <div class="ui-face" style="background:var(--coral);color:white;font-size:10px;font-weight:700;">+5</div>
-            </div>
-            <div style="margin-top:10px;font-size:12px;color:var(--text-light);">⏰ 8:00 PM · Tonight</div>
         </div>
+    </section>
 
-        <div class="ui-card card-venue" data-float="2">
-            <div class="ui-card-hdr">
-                <div class="ui-ava" style="background:linear-gradient(135deg,#0D7377,#14BDBD);">🏪</div>
-                <div>
-                    <div class="ui-title">Shooq Cafe</div>
-                    <div class="ui-sub">Baghdad, Mansour</div>
+    <!-- HOW IT WORKS -->
+    <section class="how" id="how">
+        <div class="how-inner">
+            <div class="how-hdr">
+                <div class="section-label">How it works</div>
+                <h2 class="section-title" data-split>From <em>idea</em> to <em>Tal'a</em> in minutes</h2>
+                <p class="section-sub" style="margin:0 auto;">No more "when are you free?" chaos. Dlliny makes
+                    organizing real meetups effortless and exciting.</p>
+            </div>
+            <div class="steps">
+                <div class="step" data-reveal>
+                    <div class="step-num snum-1">01</div>
+                    <div class="step-emoji">📍</div>
+                    <div class="step-title">Pick Your Venue</div>
+                    <div class="step-ar">اختر المكان</div>
+                    <p class="step-desc">Browse verified venues on the map — cafes, restaurants, parks, and more. Every
+                        spot is rated by real Iraqis.</p>
+                </div>
+                <div class="step-arrow" data-reveal>→</div>
+                <div class="step" data-reveal>
+                    <div class="step-num snum-2">02</div>
+                    <div class="step-emoji">👥</div>
+                    <div class="step-title">Invite Your Crew</div>
+                    <div class="step-ar">ادعُ أصحابك</div>
+                    <p class="step-desc">Set the date and time, invite specific friends, or share the Tal'a on your feed
+                        to build hype with everyone.</p>
+                </div>
+                <div class="step-arrow" data-reveal>→</div>
+                <div class="step" data-reveal>
+                    <div class="step-num snum-3">03</div>
+                    <div class="step-emoji">🎉</div>
+                    <div class="step-title">Show Up & Enjoy!</div>
+                    <div class="step-ar">اطلع واستمتع!</div>
+                    <p class="step-desc">Make real memories. Rate the experience, share moments, and start planning the
+                        next Tal'a already!</p>
                 </div>
             </div>
-            <span class="ui-pill pill-teal">✅ Verified</span>
-            <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
-                <span style="color:var(--gold);font-size:13px;">★★★★★</span>
-                <span style="font-size:11px;color:var(--text-light);">4.9 (312)</span>
-            </div>
-            <div style="margin-top:7px;font-size:11px;color:var(--text-light);">🎯 23 Tal'as this week</div>
         </div>
+    </section>
 
-        <div class="ui-card card-map" data-float="3">
-            <div style="font-size:11px;font-weight:600;color:var(--teal);margin-bottom:6px;letter-spacing:1px;">🗺️ LIVE MAP</div>
-            <div style="font-size:12px;color:var(--text-light);margin-bottom:9px;">Friends near you</div>
-            <div style="display:flex;gap:7px;flex-wrap:wrap;">
-                <div class="map-dot" style="background:#FF6B35;animation-delay:0s;"></div>
-                <div class="map-dot" style="background:#0D7377;animation-delay:0.3s;"></div>
-                <div class="map-dot" style="background:#7B5EA7;animation-delay:0.6s;"></div>
-                <div class="map-dot" style="background:#F5A623;animation-delay:0.9s;"></div>
-                <div class="map-dot" style="background:#FF4858;animation-delay:1.2s;"></div>
-                <div class="map-dot" style="background:#00B894;animation-delay:1.5s;"></div>
-                <div class="map-dot" style="background:#FF6B35;animation-delay:1.8s;"></div>
-                <div class="map-dot" style="background:#14BDBD;animation-delay:2.1s;"></div>
+    <!-- BUSINESS -->
+    <section class="business" id="business">
+        <div class="biz-bg"></div>
+        <div class="biz-glow"></div>
+        <div class="biz-inner">
+            <div class="biz-grid">
+                <div>
+                    <div class="section-label" style="color:var(--gold-light);">For Iraqi businesses</div>
+                    <h2 class="section-title" data-split>Grow with <em>Dlliny</em></h2>
+                    <p class="section-sub">The first platform built to connect local Iraqi businesses with customers who
+                        actually want to find them.</p>
+                    <div class="biz-perks">
+                        <div class="perk" data-reveal>
+                            <div class="perk-icon">✓</div>
+                            <div>
+                                <div class="perk-title">Verified Badge</div>
+                                <p class="perk-desc">A trust signal that tells customers you're a quality, legitimate
+                                    Iraqi business.</p>
+                            </div>
+                        </div>
+                        <div class="perk" data-reveal>
+                            <div class="perk-icon">🎯</div>
+                            <div>
+                                <div class="perk-title">Precision Marketing</div>
+                                <p class="perk-desc">Target customers by neighborhood, interests, and real-world habits.
+                                    Reach the right people at the right time.</p>
+                            </div>
+                        </div>
+                        <div class="perk" data-reveal>
+                            <div class="perk-icon">📊</div>
+                            <div>
+                                <div class="perk-title">Real Insights</div>
+                                <p class="perk-desc">See how many Tal'as are being planned at your venue and exactly who
+                                    your customers are.</p>
+                            </div>
+                        </div>
+                        <div class="perk" data-reveal>
+                            <div class="perk-icon">🎨</div>
+                            <div>
+                                <div class="perk-title">Custom Brand Page</div>
+                                <p class="perk-desc">Your digital home — customized with your colors, menu, events,
+                                    music vibe, and everything unique to you.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-reveal>
+                    <div class="brand-mock">
+                        <div class="brand-header">
+                            <span style="font-size:44px;opacity:0.4;">☕</span>
+                            <div class="brand-avatar">☕</div>
+                            <div class="brand-verified">✓ Verified</div>
+                        </div>
+                        <div class="brand-body">
+                            <div class="brand-name">Shooq Cafe</div>
+                            <div class="brand-type">Coffee & Lounge · Baghdad, Mansour</div>
+                            <div class="brand-stats">
+                                <div>
+                                    <div class="bstat-num">2.4K</div>
+                                    <div class="bstat-label">Followers</div>
+                                </div>
+                                <div>
+                                    <div class="bstat-num">89</div>
+                                    <div class="bstat-label">Tal'as</div>
+                                </div>
+                                <div>
+                                    <div class="bstat-num">4.9★</div>
+                                    <div class="bstat-label">Rating</div>
+                                </div>
+                            </div>
+                            <div style="margin-top:18px;display:flex;gap:7px;flex-wrap:wrap;">
+                                <span class="ui-pill pill-emerald">🕐 Open Now</span>
+                                <span class="ui-pill pill-orange">🔥 Trending</span>
+                                <span class="ui-pill pill-teal">📍 Mansour</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:26px;text-align:center;">
+                        <button class="btn-primary" style="padding:17px 34px;background:var(--cream);color:var(--ink);"
+                            data-hover onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+                            <span>Register Your Business →</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div style="margin-top:9px;font-size:11px;color:var(--text-light);">🟢 8 friends active now</div>
         </div>
-    </div>
+    </section>
 
-    <div class="hero-content">
-        <div class="hero-badge" data-anim="fade-down">
-            <div class="badge-dot"></div>
-            Launching Soon in Iraq 🇮🇶
-        </div>
-        <div class="hero-logo">
-            <div class="hero-logo-en" data-anim="logo">Dlliny</div>
-            <div class="hero-logo-ar" data-anim="fade-up">دليني</div>
-        </div>
-        <p class="hero-tagline" data-anim="fade-up">The First Original <em>Iraqi</em> Social Media Platform</p>
-        <p class="hero-desc" data-anim="fade-up">
-            Stop scrolling, start living. Dlliny connects you with friends and the best spots in your city — turning plans into real-life <strong>Tal'as</strong> (طلعات) you'll actually remember.
-        </p>
-        <div class="hero-form" id="heroFormWrap" data-anim="fade-up">
-            <input type="email" class="hero-input" placeholder="Enter your email address" id="heroEmail">
-            <button class="btn-primary" data-hover onclick="handleSignup('heroEmail','heroSuccess','heroFormWrap')"><span>Join Waitlist →</span></button>
-        </div>
-        <div class="success-msg" id="heroSuccess">🎉 You're on the list! We'll be in touch soon.</div>
-        <p class="hero-note" data-anim="fade-up">Free forever — no spam, ever.</p>
-    </div>
-
-    <div class="scroll-hint">
-        <span>Scroll</span>
-        <div class="line"></div>
-    </div>
-</section>
-
-<!-- TICKER -->
-<div class="ticker">
-    <div class="ticker-track" id="tickerTrack">
-        <span class="ticker-item">Baghdad <span>· بغداد</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Basra <span>· البصرة</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Erbil <span>· أربيل</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Mosul <span>· الموصل</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Najaf <span>· النجف</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Karbala <span>· كربلاء</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Kirkuk <span>· كركوك</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Sulaymaniyah <span>· السليمانية</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Dohuk <span>· دهوك</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Ramadi <span>· الرمادي</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Samarra <span>· سامراء</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Amarah <span>· العمارة</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Baghdad <span>· بغداد</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Basra <span>· البصرة</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Erbil <span>· أربيل</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Mosul <span>· الموصل</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Najaf <span>· النجف</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Karbala <span>· كربلاء</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Kirkuk <span>· كركوك</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Sulaymaniyah <span>· السليمانية</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Dohuk <span>· دهوك</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Ramadi <span>· الرمادي</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Samarra <span>· سامراء</span></span><span class="ticker-item"><span class="ticker-dot"></span></span>
-        <span class="ticker-item">Amarah <span>· العمارة</span></span>
-    </div>
-</div>
-
-<!-- FEATURES -->
-<section class="features" id="features">
-    <div class="features-inner">
-        <div class="features-hdr">
-            <div class="section-label">What makes us different</div>
-            <h2 class="section-title" data-split>Built for the Iraqi <em>way of life</em></h2>
-            <p class="section-sub" style="margin:0 auto;">Everything you need to connect, discover, and make real memories — all in one place, designed specifically for you.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feat-card feat-card-1">
-                <div class="feat-num">01</div>
-                <div class="feat-icon-wrap iwrap-1">🎯</div>
-                <div class="feat-title">The <em>Tal'a</em> Organizer</div>
-                <div class="feat-title-ar">منظم الطلعة</div>
-                <p class="feat-desc">Create real hangouts, not just plans. Pick a verified venue, set the time, invite your crew, and share the excitement. Turn talk into action.</p>
-            </div>
-            <div class="feat-card feat-card-2">
-                <div class="feat-num">02</div>
-                <div class="feat-icon-wrap iwrap-2">🗺️</div>
-                <div class="feat-title">The <em>Living</em> Map</div>
-                <div class="feat-title-ar">الخريطة الحية</div>
-                <p class="feat-desc">A real-time 2D map showing where friends are hanging out and spotlighting the hottest verified venues in your city. Always know where the fun is.</p>
-            </div>
-            <div class="feat-card feat-card-3">
-                <div class="feat-num">03</div>
-                <div class="feat-icon-wrap iwrap-3">📸</div>
-                <div class="feat-title"><em>Social</em> Feed</div>
-                <div class="feat-title-ar">التغذية الاجتماعية</div>
-                <p class="feat-desc">Share photos, videos, and moments. Tag friends, mention favorite spots, and build a connected story of your life and city.</p>
-            </div>
-            <div class="feat-card feat-card-4">
-                <div class="feat-num">04</div>
-                <div class="feat-icon-wrap iwrap-4">🏪</div>
-                <div class="feat-title"><em>Business</em> Ecosystem</div>
-                <div class="feat-title-ar">منظومة الأعمال</div>
-                <p class="feat-desc">Iraqi businesses get a verified digital home with custom brand pages and precision marketing to reach the right local customers.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
-    <div class="how-inner">
-        <div class="how-hdr">
-            <div class="section-label">How it works</div>
-            <h2 class="section-title" data-split>From <em>idea</em> to <em>Tal'a</em> in minutes</h2>
-            <p class="section-sub" style="margin:0 auto;">No more "when are you free?" chaos. Dlliny makes organizing real meetups effortless and exciting.</p>
-        </div>
-        <div class="steps">
-            <div class="step" data-reveal>
-                <div class="step-num snum-1">01</div>
-                <div class="step-emoji">📍</div>
-                <div class="step-title">Pick Your Venue</div>
-                <div class="step-ar">اختر المكان</div>
-                <p class="step-desc">Browse verified venues on the map — cafes, restaurants, parks, and more. Every spot is rated by real Iraqis.</p>
-            </div>
-            <div class="step-arrow" data-reveal>→</div>
-            <div class="step" data-reveal>
-                <div class="step-num snum-2">02</div>
-                <div class="step-emoji">👥</div>
-                <div class="step-title">Invite Your Crew</div>
-                <div class="step-ar">ادعُ أصحابك</div>
-                <p class="step-desc">Set the date and time, invite specific friends, or share the Tal'a on your feed to build hype with everyone.</p>
-            </div>
-            <div class="step-arrow" data-reveal>→</div>
-            <div class="step" data-reveal>
-                <div class="step-num snum-3">03</div>
-                <div class="step-emoji">🎉</div>
-                <div class="step-title">Show Up & Enjoy!</div>
-                <div class="step-ar">اطلع واستمتع!</div>
-                <p class="step-desc">Make real memories. Rate the experience, share moments, and start planning the next Tal'a already!</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- BUSINESS -->
-<section class="business" id="business">
-    <div class="biz-bg"></div>
-    <div class="biz-glow"></div>
-    <div class="biz-inner">
-        <div class="biz-grid">
+    <!-- SOCIAL PROOF -->
+    <section class="proof" id="community">
+        <div class="proof-inner">
             <div>
-                <div class="section-label" style="color:var(--gold-light);">For Iraqi businesses</div>
-                <h2 class="section-title" data-split>Grow with <em>Dlliny</em></h2>
-                <p class="section-sub">The first platform built to connect local Iraqi businesses with customers who actually want to find them.</p>
-                <div class="biz-perks">
-                    <div class="perk" data-reveal>
-                        <div class="perk-icon">✓</div>
+                <div class="section-label">The waitlist is growing</div>
+                <h2 class="section-title" data-split>Iraqis are <em>ready</em></h2>
+                <p class="section-sub" style="margin:0 auto;">Thousands have already signed up from across Iraq. Be part
+                    of the founding wave.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item si-1" data-reveal>
+                    <div class="stat-num sn-1" id="counter1">0</div>
+                    <div class="stat-label">People on the Waitlist</div>
+                </div>
+                <div class="stat-item si-2" data-reveal>
+                    <div class="stat-num sn-2" id="counter2">0</div>
+                    <div class="stat-label">Iraqi Cities Represented</div>
+                </div>
+                <div class="stat-item si-3" data-reveal>
+                    <div class="stat-num sn-3" id="counter3">0</div>
+                    <div class="stat-label">Businesses Interested</div>
+                </div>
+            </div>
+            <div class="testi-grid">
+                <div class="testi-card" data-reveal>
+                    <span class="testi-quote">"</span>
+                    <p class="testi-text">Finally! An app that gets the Iraqi vibe. Planning طلعات with friends is
+                        always a mess — this is exactly what we needed.</p>
+                    <div class="testi-author">
+                        <div class="testi-ava" style="background:#FFD93D;">😊</div>
                         <div>
-                            <div class="perk-title">Verified Badge</div>
-                            <p class="perk-desc">A trust signal that tells customers you're a quality, legitimate Iraqi business.</p>
+                            <div class="testi-name">Ahmed K.</div>
+                            <div class="testi-city">Baghdad</div>
                         </div>
                     </div>
-                    <div class="perk" data-reveal>
-                        <div class="perk-icon">🎯</div>
+                </div>
+                <div class="testi-card" data-reveal>
+                    <span class="testi-quote">"</span>
+                    <p class="testi-text">As a cafe owner in Basra, I've been waiting for something like this. Finally a
+                        platform that actually knows the Iraqi market!</p>
+                    <div class="testi-author">
+                        <div class="testi-ava" style="background:#6BCB77;">🧑‍💼</div>
                         <div>
-                            <div class="perk-title">Precision Marketing</div>
-                            <p class="perk-desc">Target customers by neighborhood, interests, and real-world habits. Reach the right people at the right time.</p>
+                            <div class="testi-name">Sara M.</div>
+                            <div class="testi-city">Basra</div>
                         </div>
                     </div>
-                    <div class="perk" data-reveal>
-                        <div class="perk-icon">📊</div>
+                </div>
+                <div class="testi-card" data-reveal>
+                    <span class="testi-quote">"</span>
+                    <p class="testi-text">The Living Map feature alone is worth it. Seeing where your squad is hanging
+                        out in real-time? That's genuinely brilliant.</p>
+                    <div class="testi-author">
+                        <div class="testi-ava" style="background:#4D96FF;">😄</div>
                         <div>
-                            <div class="perk-title">Real Insights</div>
-                            <p class="perk-desc">See how many Tal'as are being planned at your venue and exactly who your customers are.</p>
-                        </div>
-                    </div>
-                    <div class="perk" data-reveal>
-                        <div class="perk-icon">🎨</div>
-                        <div>
-                            <div class="perk-title">Custom Brand Page</div>
-                            <p class="perk-desc">Your digital home — customized with your colors, menu, events, music vibe, and everything unique to you.</p>
+                            <div class="testi-name">Omar N.</div>
+                            <div class="testi-city">Erbil</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div data-reveal>
-                <div class="brand-mock">
-                    <div class="brand-header">
-                        <span style="font-size:44px;opacity:0.4;">☕</span>
-                        <div class="brand-avatar">☕</div>
-                        <div class="brand-verified">✓ Verified</div>
-                    </div>
-                    <div class="brand-body">
-                        <div class="brand-name">Shooq Cafe</div>
-                        <div class="brand-type">Coffee & Lounge · Baghdad, Mansour</div>
-                        <div class="brand-stats">
-                            <div>
-                                <div class="bstat-num">2.4K</div>
-                                <div class="bstat-label">Followers</div>
-                            </div>
-                            <div>
-                                <div class="bstat-num">89</div>
-                                <div class="bstat-label">Tal'as</div>
-                            </div>
-                            <div>
-                                <div class="bstat-num">4.9★</div>
-                                <div class="bstat-label">Rating</div>
-                            </div>
-                        </div>
-                        <div style="margin-top:18px;display:flex;gap:7px;flex-wrap:wrap;">
-                            <span class="ui-pill pill-emerald">🕐 Open Now</span>
-                            <span class="ui-pill pill-orange">🔥 Trending</span>
-                            <span class="ui-pill pill-teal">📍 Mansour</span>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top:26px;text-align:center;">
-                    <button class="btn-primary" style="padding:17px 34px;background:var(--cream);color:var(--ink);" data-hover onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-                        <span>Register Your Business →</span>
-                    </button>
-                </div>
-            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- SOCIAL PROOF -->
-<section class="proof" id="community">
-    <div class="proof-inner">
-        <div>
-            <div class="section-label">The waitlist is growing</div>
-            <h2 class="section-title" data-split>Iraqis are <em>ready</em></h2>
-            <p class="section-sub" style="margin:0 auto;">Thousands have already signed up from across Iraq. Be part of the founding wave.</p>
+    <!-- FINAL CTA -->
+    <section class="final-cta" id="cta">
+        <div class="cta-bg"></div>
+        <div class="cta-orb cta-orb-1" data-speed="0.4"></div>
+        <div class="cta-orb cta-orb-2" data-speed="0.3"></div>
+        <div class="cta-inner">
+            <div class="section-label">Don't miss out</div>
+            <h2 class="cta-title" data-split>Be First. Be <em>Iraqi</em>.<br>Be <em>Dlliny</em>.</h2>
+            <div class="cta-title-ar">كون الأول · انضم لدليني</div>
+            <p class="cta-sub">Join thousands of Iraqis waiting to turn digital connections into real-life memories.
+                Sign up for early access today.</p>
+            <div class="cta-form" id="ctaFormWrap">
+                <input type="email" class="cta-input" placeholder="Your email address" id="ctaEmail">
+                <button class="btn-white" data-hover
+                    onclick="handleSignup('ctaEmail','ctaSuccess','ctaFormWrap')"><span>Join Now →</span></button>
+            </div>
+            <div class="cta-success" id="ctaSuccess">🎉 You're in! Welcome to the Dlliny family.</div>
+            <p class="cta-note">No spam, ever · Unsubscribe anytime</p>
         </div>
-        <div class="stats-grid">
-            <div class="stat-item si-1" data-reveal>
-                <div class="stat-num sn-1" id="counter1">0</div>
-                <div class="stat-label">People on the Waitlist</div>
-            </div>
-            <div class="stat-item si-2" data-reveal>
-                <div class="stat-num sn-2" id="counter2">0</div>
-                <div class="stat-label">Iraqi Cities Represented</div>
-            </div>
-            <div class="stat-item si-3" data-reveal>
-                <div class="stat-num sn-3" id="counter3">0</div>
-                <div class="stat-label">Businesses Interested</div>
-            </div>
-        </div>
-        <div class="testi-grid">
-            <div class="testi-card" data-reveal>
-                <span class="testi-quote">"</span>
-                <p class="testi-text">Finally! An app that gets the Iraqi vibe. Planning طلعات with friends is always a mess — this is exactly what we needed.</p>
-                <div class="testi-author">
-                    <div class="testi-ava" style="background:#FFD93D;">😊</div>
-                    <div>
-                        <div class="testi-name">Ahmed K.</div>
-                        <div class="testi-city">Baghdad</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card" data-reveal>
-                <span class="testi-quote">"</span>
-                <p class="testi-text">As a cafe owner in Basra, I've been waiting for something like this. Finally a platform that actually knows the Iraqi market!</p>
-                <div class="testi-author">
-                    <div class="testi-ava" style="background:#6BCB77;">🧑‍💼</div>
-                    <div>
-                        <div class="testi-name">Sara M.</div>
-                        <div class="testi-city">Basra</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card" data-reveal>
-                <span class="testi-quote">"</span>
-                <p class="testi-text">The Living Map feature alone is worth it. Seeing where your squad is hanging out in real-time? That's genuinely brilliant.</p>
-                <div class="testi-author">
-                    <div class="testi-ava" style="background:#4D96FF;">😄</div>
-                    <div>
-                        <div class="testi-name">Omar N.</div>
-                        <div class="testi-city">Erbil</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- FINAL CTA -->
-<section class="final-cta" id="cta">
-    <div class="cta-bg"></div>
-    <div class="cta-orb cta-orb-1" data-speed="0.4"></div>
-    <div class="cta-orb cta-orb-2" data-speed="0.3"></div>
-    <div class="cta-inner">
-        <div class="section-label">Don't miss out</div>
-        <h2 class="cta-title" data-split>Be First. Be <em>Iraqi</em>.<br>Be <em>Dlliny</em>.</h2>
-        <div class="cta-title-ar">كون الأول · انضم لدليني</div>
-        <p class="cta-sub">Join thousands of Iraqis waiting to turn digital connections into real-life memories. Sign up for early access today.</p>
-        <div class="cta-form" id="ctaFormWrap">
-            <input type="email" class="cta-input" placeholder="Your email address" id="ctaEmail">
-            <button class="btn-white" data-hover onclick="handleSignup('ctaEmail','ctaSuccess','ctaFormWrap')"><span>Join Now →</span></button>
-        </div>
-        <div class="cta-success" id="ctaSuccess">🎉 You're in! Welcome to the Dlliny family.</div>
-        <p class="cta-note">No spam, ever · Unsubscribe anytime</p>
-    </div>
-</section>
+    <!-- FOOTER -->
+    <footer>
+        <div class="foot-word" data-parallax>Dlliny</div>
+        <div class="foot-logo-ar">دليني</div>
+        <p class="foot-tagline">The First Original Iraqi Social Media Platform</p>
+        <hr class="foot-hr">
+        <p class="foot-copy">© 2025 Dlliny · Made with ❤️ for Iraq 🇮🇶</p>
+    </footer>
 
-<!-- FOOTER -->
-<footer>
-    <div class="foot-word" data-parallax>Dlliny</div>
-    <div class="foot-logo-ar">دليني</div>
-    <p class="foot-tagline">The First Original Iraqi Social Media Platform</p>
-    <hr class="foot-hr">
-    <p class="foot-copy">© 2025 Dlliny · Made with ❤️ for Iraq 🇮🇶</p>
-</footer>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        if (window.SplitText) gsap.registerPlugin(SplitText);
 
-<script>
-    gsap.registerPlugin(ScrollTrigger);
-    if (window.SplitText) gsap.registerPlugin(SplitText);
+        /* ── Lenis smooth scroll ── */
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+        });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
 
-    /* ── Lenis smooth scroll ── */
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
-    });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
+        /* ── Custom cursor: procedural morphing blob ── */
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorBlob = document.querySelector('.cursor-blob');
+        const blobPath = cursorBlob.querySelector('.blob-path');
 
-    /* ── Custom cursor: procedural morphing blob ── */
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorBlob = document.querySelector('.cursor-blob');
-    const blobPath = cursorBlob.querySelector('.blob-path');
+        let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+        let bx = mx, by = my;           // blob position (lerped)
+        let px = mx, py = my;           // prev position (velocity calc)
+        let vx = 0, vy = 0;             // velocity
 
-    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-    let bx = mx, by = my;           // blob position (lerped)
-    let px = mx, py = my;           // prev position (velocity calc)
-    let vx = 0, vy = 0;             // velocity
+        // Blob procedural params
+        const NUM_POINTS = 10;
+        const state = {
+            radius: 26,
+            targetRadius: 26,
+            squash: 0,     // 0 = circle, 1 = fully elongated along velocity
+            targetSquash: 0,
+            hoverScale: 1,
+            targetHoverScale: 1,
+        };
 
-    // Blob procedural params
-    const NUM_POINTS = 10;
-    const state = {
-        radius: 26,
-        targetRadius: 26,
-        squash: 0,     // 0 = circle, 1 = fully elongated along velocity
-        targetSquash: 0,
-        hoverScale: 1,
-        targetHoverScale: 1,
-    };
-
-    // Generate a wobbly blob path given a radius and an elongation along angle
-    function buildBlobPath(t, radius, squash, angle) {
-        const pts = [];
-        // Slow autonomous rotation so the blob spins as it morphs
-        const spin = t * 0.0004;
-        for (let i = 0; i < NUM_POINTS; i++) {
-            const a = (i / NUM_POINTS) * Math.PI * 2 + spin;
-            // Organic wobble — larger amplitude, multiple frequencies, different phase per point
-            const wobble =
-                Math.sin(a * 3 + t * 0.002) * 0.22 +
-                Math.sin(a * 5 + t * 0.0033) * 0.14 +
-                Math.cos(a * 2 + t * 0.0015) * 0.18 +
-                Math.sin(a * 7 + t * 0.0025) * 0.08;
-            // Stretch along velocity direction
-            const dirX = Math.cos(angle), dirY = Math.sin(angle);
-            const projection = Math.cos(a) * dirX + Math.sin(a) * dirY;
-            const stretch = 1 + projection * squash * 1.4;
-            const r = radius * (1 + wobble) * stretch;
-            pts.push([Math.cos(a) * r, Math.sin(a) * r]);
+        // Generate a wobbly blob path given a radius and an elongation along angle
+        function buildBlobPath(t, radius, squash, angle) {
+            const pts = [];
+            // Slow autonomous rotation so the blob spins as it morphs
+            const spin = t * 0.0004;
+            for (let i = 0; i < NUM_POINTS; i++) {
+                const a = (i / NUM_POINTS) * Math.PI * 2 + spin;
+                // Organic wobble — larger amplitude, multiple frequencies, different phase per point
+                const wobble =
+                    Math.sin(a * 3 + t * 0.002) * 0.22 +
+                    Math.sin(a * 5 + t * 0.0033) * 0.14 +
+                    Math.cos(a * 2 + t * 0.0015) * 0.18 +
+                    Math.sin(a * 7 + t * 0.0025) * 0.08;
+                // Stretch along velocity direction
+                const dirX = Math.cos(angle), dirY = Math.sin(angle);
+                const projection = Math.cos(a) * dirX + Math.sin(a) * dirY;
+                const stretch = 1 + projection * squash * 1.4;
+                const r = radius * (1 + wobble) * stretch;
+                pts.push([Math.cos(a) * r, Math.sin(a) * r]);
+            }
+            // Smooth closed cardinal spline via cubic bezier
+            let d = `M ${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)}`;
+            for (let i = 0; i < NUM_POINTS; i++) {
+                const p0 = pts[(i - 1 + NUM_POINTS) % NUM_POINTS];
+                const p1 = pts[i];
+                const p2 = pts[(i + 1) % NUM_POINTS];
+                const p3 = pts[(i + 2) % NUM_POINTS];
+                const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+                const c1y = p1[1] + (p2[1] - p0[1]) / 6;
+                const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+                const c2y = p2[1] - (p3[1] - p1[1]) / 6;
+                d += ` C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
+            }
+            d += ' Z';
+            return d;
         }
-        // Smooth closed cardinal spline via cubic bezier
-        let d = `M ${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)}`;
-        for (let i = 0; i < NUM_POINTS; i++) {
-            const p0 = pts[(i - 1 + NUM_POINTS) % NUM_POINTS];
-            const p1 = pts[i];
-            const p2 = pts[(i + 1) % NUM_POINTS];
-            const p3 = pts[(i + 2) % NUM_POINTS];
-            const c1x = p1[0] + (p2[0] - p0[0]) / 6;
-            const c1y = p1[1] + (p2[1] - p0[1]) / 6;
-            const c2x = p2[0] - (p3[0] - p1[0]) / 6;
-            const c2y = p2[1] - (p3[1] - p1[1]) / 6;
-            d += ` C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
-        }
-        d += ' Z';
-        return d;
-    }
 
-    window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+        window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
 
-    gsap.ticker.add((time) => {
-        // Instant dot
-        gsap.set(cursorDot, { x: mx - 3, y: my - 3 });
+        gsap.ticker.add((time) => {
+            // Instant dot
+            gsap.set(cursorDot, { x: mx - 3, y: my - 3 });
 
-        // Lerped blob position
-        bx += (mx - bx) * 0.18;
-        by += (my - by) * 0.18;
+            // Lerped blob position
+            bx += (mx - bx) * 0.18;
+            by += (my - by) * 0.18;
 
-        // Velocity for squash/stretch
-        vx = bx - px; vy = by - py;
-        px = bx; py = by;
-        const speed = Math.sqrt(vx * vx + vy * vy);
-        const angle = Math.atan2(vy, vx);
+            // Velocity for squash/stretch
+            vx = bx - px; vy = by - py;
+            px = bx; py = by;
+            const speed = Math.sqrt(vx * vx + vy * vy);
+            const angle = Math.atan2(vy, vx);
 
-        // Ease state toward targets
-        state.squash += (Math.min(speed / 30, 1) - state.squash) * 0.2;
-        state.hoverScale += (state.targetHoverScale - state.hoverScale) * 0.12;
+            // Ease state toward targets
+            state.squash += (Math.min(speed / 30, 1) - state.squash) * 0.2;
+            state.hoverScale += (state.targetHoverScale - state.hoverScale) * 0.12;
 
-        const radius = 22 * state.hoverScale;
-        const pathD = buildBlobPath(time, radius, state.squash, angle);
-        blobPath.setAttribute('d', pathD);
+            const radius = 22 * state.hoverScale;
+            const pathD = buildBlobPath(time, radius, state.squash, angle);
+            blobPath.setAttribute('d', pathD);
 
-        gsap.set(cursorBlob, { x: bx - 70, y: by - 70 });
-    });
-
-    // Hover interactions — grow + color swap
-    document.querySelectorAll('[data-hover], a, button, input').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            state.targetHoverScale = 1.5;
-            gsap.to('#cursorGrad stop:nth-child(1)', { attr: { 'stop-color': '#A7F3D0' }, duration: 0.4 });
-            gsap.to('#cursorGrad stop:nth-child(2)', { attr: { 'stop-color': '#14BDBD' }, duration: 0.4 });
-            gsap.to('#cursorGrad stop:nth-child(3)', { attr: { 'stop-color': '#0D7377' }, duration: 0.4 });
-            gsap.to(cursorDot, { scale: 0, duration: 0.25 });
+            gsap.set(cursorBlob, { x: bx - 70, y: by - 70 });
         });
-        el.addEventListener('mouseleave', () => {
-            state.targetHoverScale = 1;
-            gsap.to('#cursorGrad stop:nth-child(1)', { attr: { 'stop-color': '#FFD26B' }, duration: 0.4 });
-            gsap.to('#cursorGrad stop:nth-child(2)', { attr: { 'stop-color': '#FF6B35' }, duration: 0.4 });
-            gsap.to('#cursorGrad stop:nth-child(3)', { attr: { 'stop-color': '#FF4858' }, duration: 0.4 });
-            gsap.to(cursorDot, { scale: 1, duration: 0.25 });
+
+        // Hover interactions — grow + color swap
+        document.querySelectorAll('[data-hover], a, button, input').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                state.targetHoverScale = 1.5;
+                gsap.to('#cursorGrad stop:nth-child(1)', { attr: { 'stop-color': '#A7F3D0' }, duration: 0.4 });
+                gsap.to('#cursorGrad stop:nth-child(2)', { attr: { 'stop-color': '#14BDBD' }, duration: 0.4 });
+                gsap.to('#cursorGrad stop:nth-child(3)', { attr: { 'stop-color': '#0D7377' }, duration: 0.4 });
+                gsap.to(cursorDot, { scale: 0, duration: 0.25 });
+            });
+            el.addEventListener('mouseleave', () => {
+                state.targetHoverScale = 1;
+                gsap.to('#cursorGrad stop:nth-child(1)', { attr: { 'stop-color': '#FFD26B' }, duration: 0.4 });
+                gsap.to('#cursorGrad stop:nth-child(2)', { attr: { 'stop-color': '#FF6B35' }, duration: 0.4 });
+                gsap.to('#cursorGrad stop:nth-child(3)', { attr: { 'stop-color': '#FF4858' }, duration: 0.4 });
+                gsap.to(cursorDot, { scale: 1, duration: 0.25 });
+            });
         });
-    });
 
-    // Click pulse
-    window.addEventListener('mousedown', () => { state.targetHoverScale *= 0.6; });
-    window.addEventListener('mouseup', () => { state.targetHoverScale = state.targetHoverScale / 0.6; });
+        // Click pulse
+        window.addEventListener('mousedown', () => { state.targetHoverScale *= 0.6; });
+        window.addEventListener('mouseup', () => { state.targetHoverScale = state.targetHoverScale / 0.6; });
 
-    /* ── Nav scroll state ── */
-    const nav = document.getElementById('nav');
-    ScrollTrigger.create({
-        start: 'top+=40 top',
-        end: 99999,
-        onUpdate: (self) => nav.classList.toggle('scrolled', self.scroll() > 40),
-    });
-
-    /* ── Hero intro timeline ── */
-    window.addEventListener('load', () => {
-        const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
-        tl.from('[data-anim="fade-down"]', { y: -30, opacity: 0 })
-          .from('[data-anim="logo"]', { y: 80, opacity: 0, duration: 1.4 }, '-=0.9')
-          .from('.hero-logo-ar', { y: 40, opacity: 0 }, '-=1.0')
-          .from('.hero-tagline', { y: 30, opacity: 0, duration: 0.9 }, '-=0.8')
-          .from('.hero-desc', { y: 30, opacity: 0, duration: 0.9 }, '-=0.7')
-          .from('.hero-form', { y: 30, opacity: 0, duration: 0.9 }, '-=0.7')
-          .from('.hero-note', { y: 20, opacity: 0, duration: 0.7 }, '-=0.7')
-          .from('.ui-card', { y: 60, opacity: 0, scale: 0.9, stagger: 0.12, duration: 1 }, '-=1.0')
-          .from('.scroll-hint', { opacity: 0, duration: 0.6 }, '-=0.3');
-    });
-
-    /* ── Floating UI cards subtle float ── */
-    document.querySelectorAll('[data-float]').forEach((el, i) => {
-        const rot = parseFloat(el.style.transform.match(/rotate\(([-\d.]+)deg\)/)?.[1] || 0);
-        gsap.to(el, {
-            y: -14, duration: 3 + i * 0.5, ease: 'sine.inOut',
-            repeat: -1, yoyo: true, delay: i * 0.3,
+        /* ── Nav scroll state ── */
+        const nav = document.getElementById('nav');
+        ScrollTrigger.create({
+            start: 'top+=40 top',
+            end: 99999,
+            onUpdate: (self) => nav.classList.toggle('scrolled', self.scroll() > 40),
         });
-    });
 
-    /* ── Parallax orbs ── */
-    gsap.utils.toArray('[data-speed]').forEach(el => {
-        const speed = parseFloat(el.dataset.speed);
-        gsap.to(el, {
-            y: () => -ScrollTrigger.maxScroll(window) * speed * 0.15,
-            ease: 'none',
-            scrollTrigger: {
-                start: 0, end: 'max', invalidateOnRefresh: true, scrub: 0.5,
-            },
+        /* ── Hero intro timeline ── */
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
+            tl.from('[data-anim="fade-down"]', { y: -30, opacity: 0 })
+                .from('[data-anim="logo"]', { y: 80, opacity: 0, duration: 1.4 }, '-=0.9')
+                .from('.hero-logo-ar', { y: 40, opacity: 0 }, '-=1.0')
+                .from('.hero-tagline', { y: 30, opacity: 0, duration: 0.9 }, '-=0.8')
+                .from('.hero-desc', { y: 30, opacity: 0, duration: 0.9 }, '-=0.7')
+                .from('.hero-form', { y: 30, opacity: 0, duration: 0.9 }, '-=0.7')
+                .from('.hero-note', { y: 20, opacity: 0, duration: 0.7 }, '-=0.7')
+                .from('.ui-card', { y: 60, opacity: 0, scale: 0.9, stagger: 0.12, duration: 1 }, '-=1.0')
+                .from('.scroll-hint', { opacity: 0, duration: 0.6 }, '-=0.3');
         });
-    });
 
-    /* ── Split text reveal on section titles ── */
-    document.querySelectorAll('[data-split]').forEach(el => {
-        const html = el.innerHTML;
-        const words = html.split(/(<[^>]+>|\s+)/).filter(Boolean);
-        el.innerHTML = words.map(w => {
-            if (w.startsWith('<') || w.trim() === '') return w;
-            return `<span class="split-word" style="display:inline-block;overflow:hidden;vertical-align:top;"><span class="split-inner" style="display:inline-block;transform:translateY(110%);">${w}</span></span>`;
-        }).join(' ');
-
-        gsap.to(el.querySelectorAll('.split-inner'), {
-            y: 0, duration: 1.1, ease: 'expo.out',
-            stagger: 0.06,
-            scrollTrigger: { trigger: el, start: 'top 85%' },
+        /* ── Floating UI cards subtle float ── */
+        document.querySelectorAll('[data-float]').forEach((el, i) => {
+            const rot = parseFloat(el.style.transform.match(/rotate\(([-\d.]+)deg\)/)?.[1] || 0);
+            gsap.to(el, {
+                y: -14, duration: 3 + i * 0.5, ease: 'sine.inOut',
+                repeat: -1, yoyo: true, delay: i * 0.3,
+            });
         });
-    });
 
-    /* ── Generic reveal on [data-reveal] ── */
-    gsap.utils.toArray('[data-reveal]').forEach(el => {
-        gsap.fromTo(el,
-            { y: 40, opacity: 0 },
+        /* ── Parallax orbs ── */
+        gsap.utils.toArray('[data-speed]').forEach(el => {
+            const speed = parseFloat(el.dataset.speed);
+            gsap.to(el, {
+                y: () => -ScrollTrigger.maxScroll(window) * speed * 0.15,
+                ease: 'none',
+                scrollTrigger: {
+                    start: 0, end: 'max', invalidateOnRefresh: true, scrub: 0.5,
+                },
+            });
+        });
+
+        /* ── Split text reveal on section titles ── */
+        document.querySelectorAll('[data-split]').forEach(el => {
+            const html = el.innerHTML;
+            const words = html.split(/(<[^>]+>|\s+)/).filter(Boolean);
+            el.innerHTML = words.map(w => {
+                if (w.startsWith('<') || w.trim() === '') return w;
+                return `<span class="split-word" style="display:inline-block;vertical-align:baseline;"><span class="split-inner" style="display:inline-block;transform:translateY(110%);opacity:0;">${w}</span></span>`;
+            }).join(' ');
+
+            gsap.to(el.querySelectorAll('.split-inner'), {
+                y: 0, opacity: 1, duration: 1.1, ease: 'expo.out',
+                stagger: 0.06,
+                scrollTrigger: { trigger: el, start: 'top 85%' },
+            });
+        });
+
+        /* ── Generic reveal on [data-reveal] ── */
+        gsap.utils.toArray('[data-reveal]').forEach(el => {
+            gsap.fromTo(el,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1, duration: 1, ease: 'expo.out',
+                    scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none none' },
+                }
+            );
+        });
+
+        /* ── Stagger feature cards ── */
+        gsap.fromTo('.feat-card',
+            { y: 60, opacity: 0 },
             {
-                y: 0, opacity: 1, duration: 1, ease: 'expo.out',
-                scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none none' },
+                y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.1,
+                scrollTrigger: { trigger: '.features-grid', start: 'top 95%', toggleActions: 'play none none none' },
             }
         );
-    });
 
-    /* ── Stagger feature cards ── */
-    gsap.fromTo('.feat-card',
-        { y: 60, opacity: 0 },
-        {
-            y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.1,
-            scrollTrigger: { trigger: '.features-grid', start: 'top 95%', toggleActions: 'play none none none' },
-        }
-    );
-
-    /* Safety: refresh ScrollTrigger once everything (fonts, images) has settled */
-    window.addEventListener('load', () => {
-        setTimeout(() => ScrollTrigger.refresh(), 100);
-    });
-
-    /* ── Counters ── */
-    function animateCount(el, target, suffix) {
-        const obj = { val: 0 };
-        gsap.to(obj, {
-            val: target, duration: 2.4, ease: 'power3.out',
-            onUpdate: () => { el.textContent = Math.floor(obj.val).toLocaleString() + suffix; },
-            scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+        /* Safety: refresh ScrollTrigger once everything (fonts, images) has settled */
+        window.addEventListener('load', () => {
+            setTimeout(() => ScrollTrigger.refresh(), 100);
         });
-    }
-    animateCount(document.getElementById('counter1'), 8400, '+');
-    animateCount(document.getElementById('counter2'), 18, '');
-    animateCount(document.getElementById('counter3'), 320, '+');
 
-    /* ── Footer word parallax ── */
-    gsap.to('[data-parallax]', {
-        y: -60, ease: 'none',
-        scrollTrigger: { trigger: 'footer', start: 'top bottom', end: 'bottom bottom', scrub: true },
-    });
-
-    /* ── Email signup handler ── */
-    function handleSignup(inputId, successId, formId) {
-        const input = document.getElementById(inputId);
-        const val = input.value.trim();
-        if (!val || !val.includes('@') || !val.includes('.')) {
-            gsap.fromTo(input,
-                { x: -8 },
-                { x: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' }
-            );
-            input.style.borderColor = '#FF4858';
-            input.focus();
-            setTimeout(() => { input.style.borderColor = ''; }, 1800);
-            return;
-        }
-        gsap.to('#' + formId, {
-            opacity: 0, y: -10, duration: 0.4,
-            onComplete: () => {
-                document.getElementById(formId).style.display = 'none';
-                document.getElementById(successId).classList.add('show');
-                gsap.fromTo('#' + successId, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 });
-            },
-        });
-        spawnCelebration();
-    }
-
-    function spawnCelebration() {
-        const items = ['🎉','🎊','✨','🌟','❤️','🇮🇶','🎈'];
-        for (let i = 0; i < 24; i++) {
-            const el = document.createElement('div');
-            el.textContent = items[Math.floor(Math.random() * items.length)];
-            el.style.cssText = `
-                position:fixed; font-size:${Math.random()*14+18}px;
-                left:${Math.random()*100}vw; top:100vh; z-index:9999;
-                pointer-events:none;
-            `;
-            document.body.appendChild(el);
-            gsap.to(el, {
-                y: -window.innerHeight - 100,
-                x: (Math.random() - 0.5) * 200,
-                rotation: Math.random() * 720 - 360,
-                opacity: 0,
-                duration: Math.random() * 1.5 + 1.5,
-                ease: 'power2.out',
-                onComplete: () => el.remove(),
+        /* ── Counters ── */
+        function animateCount(el, target, suffix) {
+            const obj = { val: 0 };
+            gsap.to(obj, {
+                val: target, duration: 2.4, ease: 'power3.out',
+                onUpdate: () => { el.textContent = Math.floor(obj.val).toLocaleString() + suffix; },
+                scrollTrigger: { trigger: el, start: 'top 85%', once: true },
             });
         }
-    }
-</script>
+        animateCount(document.getElementById('counter1'), 8400, '+');
+        animateCount(document.getElementById('counter2'), 18, '');
+        animateCount(document.getElementById('counter3'), 320, '+');
+
+        /* ── Footer word parallax ── */
+        gsap.to('[data-parallax]', {
+            y: -60, ease: 'none',
+            scrollTrigger: { trigger: 'footer', start: 'top bottom', end: 'bottom bottom', scrub: true },
+        });
+
+        /* ── Email signup handler ── */
+        function handleSignup(inputId, successId, formId) {
+            const input = document.getElementById(inputId);
+            const val = input.value.trim();
+            if (!val || !val.includes('@') || !val.includes('.')) {
+                gsap.fromTo(input,
+                    { x: -8 },
+                    { x: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' }
+                );
+                input.style.borderColor = '#FF4858';
+                input.focus();
+                setTimeout(() => { input.style.borderColor = ''; }, 1800);
+                return;
+            }
+            gsap.to('#' + formId, {
+                opacity: 0, y: -10, duration: 0.4,
+                onComplete: () => {
+                    document.getElementById(formId).style.display = 'none';
+                    document.getElementById(successId).classList.add('show');
+                    gsap.fromTo('#' + successId, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 });
+                },
+            });
+            spawnCelebration();
+        }
+
+        function spawnCelebration() {
+            const items = ['🎉', '🎊', '✨', '🌟', '❤️', '🇮🇶', '🎈'];
+            for (let i = 0; i < 24; i++) {
+                const el = document.createElement('div');
+                el.textContent = items[Math.floor(Math.random() * items.length)];
+                el.style.cssText = `
+                position:fixed; font-size:${Math.random() * 14 + 18}px;
+                left:${Math.random() * 100}vw; top:100vh; z-index:9999;
+                pointer-events:none;
+            `;
+                document.body.appendChild(el);
+                gsap.to(el, {
+                    y: -window.innerHeight - 100,
+                    x: (Math.random() - 0.5) * 200,
+                    rotation: Math.random() * 720 - 360,
+                    opacity: 0,
+                    duration: Math.random() * 1.5 + 1.5,
+                    ease: 'power2.out',
+                    onComplete: () => el.remove(),
+                });
+            }
+        }
+    </script>
 </body>
+
 </html>
