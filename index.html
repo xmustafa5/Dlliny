@@ -54,19 +54,26 @@
 
         ::selection { background: var(--ink); color: var(--gold-light); }
 
-        /* Custom cursor */
-        .cursor-dot, .cursor-ring {
+        /* Custom cursor — premium morphing blob */
+        .cursor-dot, .cursor-blob {
             position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-            border-radius: 50%; mix-blend-mode: difference;
+            will-change: transform;
         }
-        .cursor-dot { width: 6px; height: 6px; background: #fff; transform: translate(-50%,-50%); }
-        .cursor-ring {
-            width: 36px; height: 36px; border: 1.5px solid #fff;
-            transform: translate(-50%,-50%);
-            transition: width 0.3s, height 0.3s, background 0.3s;
+        .cursor-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--ink);
+            mix-blend-mode: difference;
         }
-        .cursor-ring.is-hover { width: 64px; height: 64px; background: rgba(255,255,255,0.1); }
-        @media (max-width: 900px) { .cursor-dot, .cursor-ring { display: none; } }
+        .cursor-blob {
+            width: 140px; height: 140px;
+            opacity: 0.9;
+        }
+        .cursor-blob svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 4px 18px rgba(255,107,53,0.35)); }
+        .cursor-blob .blob-path {
+            fill: url(#cursorGrad);
+            transition: opacity 0.3s;
+        }
+        @media (max-width: 900px) { .cursor-dot, .cursor-blob { display: none; } }
 
         /* Noise / grain overlay */
         body::before {
@@ -710,7 +717,18 @@
 <body>
 
 <div class="cursor-dot"></div>
-<div class="cursor-ring"></div>
+<div class="cursor-blob">
+    <svg viewBox="-70 -70 140 140">
+        <defs>
+            <radialGradient id="cursorGrad" cx="35%" cy="35%" r="70%">
+                <stop offset="0%" stop-color="#FFD26B" stop-opacity="1"/>
+                <stop offset="50%" stop-color="#FF6B35" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#FF4858" stop-opacity="0.85"/>
+            </radialGradient>
+        </defs>
+        <path class="blob-path" d=""/>
+    </svg>
+</div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -1103,22 +1121,112 @@
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    /* ── Custom cursor ── */
+    /* ── Custom cursor: procedural morphing blob ── */
     const cursorDot = document.querySelector('.cursor-dot');
-    const cursorRing = document.querySelector('.cursor-ring');
+    const cursorBlob = document.querySelector('.cursor-blob');
+    const blobPath = cursorBlob.querySelector('.blob-path');
+
     let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-    let rx = mx, ry = my;
+    let bx = mx, by = my;           // blob position (lerped)
+    let px = mx, py = my;           // prev position (velocity calc)
+    let vx = 0, vy = 0;             // velocity
+
+    // Blob procedural params
+    const NUM_POINTS = 10;
+    const state = {
+        radius: 26,
+        targetRadius: 26,
+        squash: 0,     // 0 = circle, 1 = fully elongated along velocity
+        targetSquash: 0,
+        hoverScale: 1,
+        targetHoverScale: 1,
+    };
+
+    // Generate a wobbly blob path given a radius and an elongation along angle
+    function buildBlobPath(t, radius, squash, angle) {
+        const pts = [];
+        // Slow autonomous rotation so the blob spins as it morphs
+        const spin = t * 0.0004;
+        for (let i = 0; i < NUM_POINTS; i++) {
+            const a = (i / NUM_POINTS) * Math.PI * 2 + spin;
+            // Organic wobble — larger amplitude, multiple frequencies, different phase per point
+            const wobble =
+                Math.sin(a * 3 + t * 0.002) * 0.22 +
+                Math.sin(a * 5 + t * 0.0033) * 0.14 +
+                Math.cos(a * 2 + t * 0.0015) * 0.18 +
+                Math.sin(a * 7 + t * 0.0025) * 0.08;
+            // Stretch along velocity direction
+            const dirX = Math.cos(angle), dirY = Math.sin(angle);
+            const projection = Math.cos(a) * dirX + Math.sin(a) * dirY;
+            const stretch = 1 + projection * squash * 1.4;
+            const r = radius * (1 + wobble) * stretch;
+            pts.push([Math.cos(a) * r, Math.sin(a) * r]);
+        }
+        // Smooth closed cardinal spline via cubic bezier
+        let d = `M ${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)}`;
+        for (let i = 0; i < NUM_POINTS; i++) {
+            const p0 = pts[(i - 1 + NUM_POINTS) % NUM_POINTS];
+            const p1 = pts[i];
+            const p2 = pts[(i + 1) % NUM_POINTS];
+            const p3 = pts[(i + 2) % NUM_POINTS];
+            const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+            const c1y = p1[1] + (p2[1] - p0[1]) / 6;
+            const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+            const c2y = p2[1] - (p3[1] - p1[1]) / 6;
+            d += ` C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
+        }
+        d += ' Z';
+        return d;
+    }
+
     window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-    gsap.ticker.add(() => {
-        rx += (mx - rx) * 0.18;
-        ry += (my - ry) * 0.18;
-        gsap.set(cursorDot, { x: mx, y: my });
-        gsap.set(cursorRing, { x: rx, y: ry });
+
+    gsap.ticker.add((time) => {
+        // Instant dot
+        gsap.set(cursorDot, { x: mx - 3, y: my - 3 });
+
+        // Lerped blob position
+        bx += (mx - bx) * 0.18;
+        by += (my - by) * 0.18;
+
+        // Velocity for squash/stretch
+        vx = bx - px; vy = by - py;
+        px = bx; py = by;
+        const speed = Math.sqrt(vx * vx + vy * vy);
+        const angle = Math.atan2(vy, vx);
+
+        // Ease state toward targets
+        state.squash += (Math.min(speed / 30, 1) - state.squash) * 0.2;
+        state.hoverScale += (state.targetHoverScale - state.hoverScale) * 0.12;
+
+        const radius = 22 * state.hoverScale;
+        const pathD = buildBlobPath(time, radius, state.squash, angle);
+        blobPath.setAttribute('d', pathD);
+
+        gsap.set(cursorBlob, { x: bx - 70, y: by - 70 });
     });
-    document.querySelectorAll('[data-hover], a, input, button').forEach(el => {
-        el.addEventListener('mouseenter', () => cursorRing.classList.add('is-hover'));
-        el.addEventListener('mouseleave', () => cursorRing.classList.remove('is-hover'));
+
+    // Hover interactions — grow + color swap
+    document.querySelectorAll('[data-hover], a, button, input').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            state.targetHoverScale = 1.5;
+            gsap.to('#cursorGrad stop:nth-child(1)', { attr: { 'stop-color': '#A7F3D0' }, duration: 0.4 });
+            gsap.to('#cursorGrad stop:nth-child(2)', { attr: { 'stop-color': '#14BDBD' }, duration: 0.4 });
+            gsap.to('#cursorGrad stop:nth-child(3)', { attr: { 'stop-color': '#0D7377' }, duration: 0.4 });
+            gsap.to(cursorDot, { scale: 0, duration: 0.25 });
+        });
+        el.addEventListener('mouseleave', () => {
+            state.targetHoverScale = 1;
+            gsap.to('#cursorGrad stop:nth-child(1)', { attr: { 'stop-color': '#FFD26B' }, duration: 0.4 });
+            gsap.to('#cursorGrad stop:nth-child(2)', { attr: { 'stop-color': '#FF6B35' }, duration: 0.4 });
+            gsap.to('#cursorGrad stop:nth-child(3)', { attr: { 'stop-color': '#FF4858' }, duration: 0.4 });
+            gsap.to(cursorDot, { scale: 1, duration: 0.25 });
+        });
     });
+
+    // Click pulse
+    window.addEventListener('mousedown', () => { state.targetHoverScale *= 0.6; });
+    window.addEventListener('mouseup', () => { state.targetHoverScale = state.targetHoverScale / 0.6; });
 
     /* ── Nav scroll state ── */
     const nav = document.getElementById('nav');
